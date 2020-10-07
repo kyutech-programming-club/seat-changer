@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS participant;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +22,12 @@ CREATE TABLE room (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,
   title TEXT NOT NULL,
-  paticipants TEXT,
   FOREIGN KEY (author_id) REFERENCES user (id)
+);
+
+CREATE TABLE participant (
+  author_id INTEGER NOT NULL,
+  room_id INTEGER NOT NULL,
+  FOREIGN KEY (author_id) REFERENCES user (id),
+  FOREIGN KEY (room_id) REFERENCES room (id),
 );

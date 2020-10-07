@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+<a class="action" href="{{ url_for('room.introduce') }}">Create</a>
   {% for post in posts %}
     <article class="post">
       <header>

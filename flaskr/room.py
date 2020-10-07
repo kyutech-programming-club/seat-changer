@@ -4,13 +4,13 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
-bp = Blueprint('blog', __name__)
+bp = Blueprint('room', __name__)
 
 @bp.route('/introduce', methods=('GET', 'POST'))
 @login_required
 def introduce():
     if request.method == 'POST':
-        return render_template('room/category.html')
+        return redirect(url_for('room.category'))
     
     return render_template('room/introduce.html')
 
@@ -18,7 +18,7 @@ def introduce():
 @login_required
 def category():
     if request.method == 'POST':
-        return render_template('room/result.html')
+        return redirect(url_for('room.result'))
     
     return render_template('room/category.html')
 
