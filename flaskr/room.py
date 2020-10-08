@@ -6,6 +6,15 @@ from flaskr.db import get_db
 
 bp = Blueprint('room', __name__)
 
+@bp.route('/room')
+def room_index():
+    db = get_db()
+    rooms = db.execute(
+        'SELECT r.id, title, author_id'
+        ' FROM room r JOIN user u ON r.author_id = r.id'
+    ).fetchall()
+    return render_template('room/room_index.html', rooms=rooms)
+
 @bp.route('/introduce', methods=('GET', 'POST'))
 @login_required
 def introduce():
