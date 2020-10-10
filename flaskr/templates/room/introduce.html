@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
+  <h1>{{ room['title'] }}</h1>
+  <div class="about">by {{ room['username'] }}</div>
+  <hr>
+  {% for user in users %}
+    <div>
+      <h3>{{ user['username'] }}</h3>
+    </div>
+  {% endfor %}
   <form method="post">
     <input type="submit" value="Next">
   </form>

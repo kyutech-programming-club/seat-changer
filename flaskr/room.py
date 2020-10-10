@@ -27,7 +27,14 @@ def room_index():
           (title, g.user['id'])
         )
         db.commit()
-        return redirect(url_for('room.introduce'))
+        rooms = db.execute(
+          'SELECT id, author_id'
+          ' FROM room'
+          ' WHERE author_id = ?', (g.user['id'],)
+        )
+        print(rooms)
+        room = rooms[-1]
+        return redirect(url_for('room.introduce', id=room['id']))
 
     rooms = db.execute(
         'SELECT r.id, title, author_id, username'
@@ -35,13 +42,25 @@ def room_index():
     ).fetchall()
     return render_template('room/room_index.html', rooms=rooms)
 
-@bp.route('/introduce', methods=('GET', 'POST'))
+@bp.route('/<int:id>/introduce', methods=('GET', 'POST'))
 @login_required
-def introduce():
+def introduce(id):
+    db = get_db()
+
     if request.method == 'POST':
         return redirect(url_for('room.category'))
     
-    return render_template('room/introduce.html')
+    users = db.execute(
+      'SELECT username, u.id'
+      ' FROM user u'
+    ).fetchall()
+    room = db.execute(
+      'SELECT r.id, title, author_id, username'
+      ' FROM room r JOIN user u ON r.author_id = u.id'
+      ' WHERE r.id = ?', 
+      (id,)
+    ).fetchone()
+    return render_template('room/introduce.html', users=users, room=room)
 
 @bp.route('/category', methods=('GET', 'POST'))
 @login_required
