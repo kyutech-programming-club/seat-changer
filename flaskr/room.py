@@ -27,14 +27,12 @@ def room_index():
           (title, g.user['id'])
         )
         db.commit()
-        rooms = db.execute(
-          'SELECT id, author_id'
+        room_id = db.execute(
+          'SELECT *'
           ' FROM room'
-          ' WHERE author_id = ?', (g.user['id'],)
-        )
-        print(rooms)
-        room = rooms[-1]
-        return redirect(url_for('room.introduce', id=room['id']))
+          ' WHERE rowid = last_insert_rowid()'
+        ).fetchone()
+        return redirect(url_for('room.introduce', id=room_id['id']))
 
     rooms = db.execute(
         'SELECT r.id, title, author_id, username'
