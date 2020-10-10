@@ -2,12 +2,15 @@
 
 {% block header %}
   <h1>{% block title %}rooms{% endblock %}</h1>
-  {% if g.user %}
-    <a class="action" href="{{ url_for('room.introduce') }}">New</a>
-  {% endif %}
 {% endblock %}
 
 {% block content %}
+  <form method="post">
+    <label for="title">Title</label>
+    <input name="title" id="title", value="{{ request.form['title'] }}" required>
+    <input type="submit", value="next">
+  </form>
+  <hr>
   {% for room in rooms %}
     <article class="post">
       <header>

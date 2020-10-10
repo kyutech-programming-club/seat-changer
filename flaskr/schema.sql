@@ -26,8 +26,9 @@ CREATE TABLE room (
 );
 
 CREATE TABLE participant (
-  author_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
   room_id INTEGER NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id),
+  FOREIGN KEY (user_id) REFERENCES user (id),
   FOREIGN KEY (room_id) REFERENCES room (id)
 );
+
