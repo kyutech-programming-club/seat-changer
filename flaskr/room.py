@@ -34,11 +34,7 @@ def room_index():
         ).fetchone()
         return redirect(url_for('room.introduce', id=room_id['id']))
 
-    rooms = db.execute(
-        'SELECT r.id, title, author_id, username'
-        ' FROM room r JOIN user u ON r.author_id = r.id'
-    ).fetchall()
-    return render_template('room/room_index.html', rooms=rooms)
+    return render_template('room/room_index.html')
 
 @bp.route('/<int:id>/introduce', methods=('GET', 'POST'))
 @login_required
@@ -49,9 +45,12 @@ def introduce(id):
         return redirect(url_for('room.category'))
     
     users = db.execute(
-      'SELECT username, u.id'
-      ' FROM user u'
+      'SELECT guest_id, username'
+      ' FROM friend f JOIN user u ON f.guest_id = u.id'
+      ' WHERE host_id = ?',
+      (g.user['id'],)
     ).fetchall()
+
     room = db.execute(
       'SELECT r.id, title, author_id, username'
       ' FROM room r JOIN user u ON r.author_id = u.id'

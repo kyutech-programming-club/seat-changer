@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS participant;
+DROP TABLE IF EXISTS friend;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,3 +33,9 @@ CREATE TABLE participant (
   FOREIGN KEY (room_id) REFERENCES room (id)
 );
 
+CREATE TABLE friend (
+  host_id INTEGER NOT NULL,
+  guest_id INTEGER NOT NULL,
+  FOREIGN KEY (host_id) REFERENCES user (id),
+  FOREIGN KEY (guest_id) REFERENCES user (id)
+);
