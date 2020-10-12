@@ -32,13 +32,13 @@ def room_index():
           ' FROM room'
           ' WHERE rowid = last_insert_rowid()'
         ).fetchone()
-        return redirect(url_for('room.introduce', id=room_id['id']))
+        return redirect(url_for('room.invite', id=room_id['id']))
 
     return render_template('room/room_index.html')
 
-@bp.route('/<int:id>/introduce', methods=('GET', 'POST'))
+@bp.route('/<int:id>/invite', methods=('GET', 'POST'))
 @login_required
-def introduce(id):
+def invite(id):
     db = get_db()
 
     if request.method == 'POST':
@@ -57,7 +57,7 @@ def introduce(id):
       ' WHERE r.id = ?', 
       (id,)
     ).fetchone()
-    return render_template('room/introduce.html', users=users, room=room)
+    return render_template('room/invite.html', users=users, room=room)
 
 @bp.route('/category', methods=('GET', 'POST'))
 @login_required
