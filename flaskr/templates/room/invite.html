@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Invite{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h1>{{ room['title'] }}</h1>
+  <div class="about">by {{ room['username'] }}</div>
+  <hr>
+  {% for user in users %}
+    <div>
+      <h3>{{ user['username'] }}</h3>
+    </div>
+  {% endfor %}
+  <form method="post">
+    <input type="submit" value="Next">
+  </form>
+{% endblock %}

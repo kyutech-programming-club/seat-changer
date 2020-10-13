@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}友達一覧{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for friend in friends %}
+    <h4>{{ friend['username'] }}</h4>
+  {% endfor %}
+{% endblock %}

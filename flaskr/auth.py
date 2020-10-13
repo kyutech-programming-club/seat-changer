@@ -88,19 +88,34 @@ def logout():
   return redirect(url_for('index'))
 
 
-@bp.route('/mypage')
-def mypage():
+@bp.route('/<int:id>/user')
+@login_required
+def userpage(id):
   db = get_db()
-
+  #idに対応する人の情報
+  user = db.execute(
+    'SELECT username'
+    ' FROM user'
+    ' WHERE id = ?',
+    (id,)
+  ).fetchone()
   #自分のカテゴリー
   #カテゴリーの編集
+  #知り合いかも
+  return render_template('auth/user.html', user=user)
+
+@bp.route('/friends')
+@login_required
+def friends():
+  db = get_db()
+  #友達検索？
   #自分の友達
-  users = db.execute(
+  friends = db.execute(
     'SELECT guest_id, username'
     ' FROM friend f JOIN user u ON f.guest_id = u.id'
     ' WHERE host_id = ?',
     (g.user['id'],)
   ).fetchall()
-  #知り合いかも
-  #友達検索？
-  return render_template('auth/mypage.html')
+
+  return render_template('auth/friends.html', friends=friends)
+
