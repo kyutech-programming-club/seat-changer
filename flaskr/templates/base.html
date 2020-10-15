@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>{% block title %}{% endblock %} - seat-changer</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-  <h1>Flaskr</h1>
+  <h1>Seat-Changer</h1>
   <ul>
     {% if g.user %}
       <li><a href="{{ url_for('auth.userpage', id=g.user['id']) }}">{{ g.user['username'] }}</a>

@@ -130,8 +130,15 @@ def userpage(id):
   for maybe_friend in maybe_friends:
     if maybe_friend is not None:
       is_maybe_friend = True
+  
+  #友達追加の有無
+  is_friend = True
 
-  return render_template('auth/user.html', user=user, id=id, maybe_friends=maybe_friends, is_maybe_friend=is_maybe_friend)
+  for add_list in add_lists:
+    if add_list['guest_id'] == id:
+      is_friend = False
+
+  return render_template('auth/user.html', user=user, id=id, maybe_friends=maybe_friends, is_maybe_friend=is_maybe_friend, is_friend=is_friend)
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required

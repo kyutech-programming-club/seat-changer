@@ -6,9 +6,9 @@ from flaskr.db import get_db
 
 bp = Blueprint('room', __name__)
 
-@bp.route('/room', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 @login_required
-def room_index():
+def index():
     db = get_db()
     
     if request.method == 'POST':
