@@ -104,11 +104,36 @@ def userpage(id):
   #知り合いかも
   return render_template('auth/user.html', user=user)
 
-@bp.route('/friends')
+@bp.route('/friends', methods=('GET', 'POST'))
 @login_required
 def friends():
   db = get_db()
   #友達検索？
+  if request.method == 'POST':
+    username = request.form['username']
+    error = None
+
+    if not username:
+      error = 'Username is required'
+    
+    if error is not None:
+      flash(error)
+    else:
+      user = db.execute(
+        'SELECT id'
+        ' FROM user'
+        ' WHERE username = ?',
+        (username,)
+      ).fetchone()
+
+      if user == None:
+        error = 'User is None'
+        flash(error)
+      else:
+        return redirect(url_for('auth.userpage', id=user['id']))
+
+
+
   #自分の友達
   friends = db.execute(
     'SELECT guest_id, username'
