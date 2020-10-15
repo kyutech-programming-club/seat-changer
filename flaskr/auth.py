@@ -102,7 +102,35 @@ def userpage(id):
   #自分のカテゴリー
   #カテゴリーの編集
   #知り合いかも
-  return render_template('auth/user.html', user=user, id=id)
+  added_lists = db.execute(
+    'SELECT host_id, username'
+    ' FROM friend f JOIN user u ON f.host_id = u.id'
+    ' WHERE guest_id = ?',
+    (g.user['id'],)
+  ).fetchall()
+  
+  add_lists = db.execute(
+    'SELECT guest_id'
+    ' FROM friend'
+    ' WHERE host_id = ?',
+    (g.user['id'],)
+  ).fetchall()
+
+  maybe_friends = []
+
+  for added_list in added_lists:
+    is_ok = True
+    for add_list in add_lists:
+      print("-------------------------")
+      print(add_list['guest_id'])
+      print(added_list['host_id'])
+      print("-------------------------")
+      if add_list['guest_id'] == added_list['host_id']:
+        is_ok = False
+    if is_ok == True:
+      maybe_friends.append(added_list)
+
+  return render_template('auth/user.html', user=user, id=id, maybe_friends=maybe_friends)
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required
