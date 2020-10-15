@@ -5,5 +5,9 @@
 {% endblock %}
 
 {% block content %}
+  {% if g.user['id'] == id %}
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
+  {% else %}
+    <a class="action" href="{{ url_for('auth.add_friend', id=id) }}">友達追加</a>
+  {% endif %}
 {% endblock %}

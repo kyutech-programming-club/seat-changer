@@ -102,7 +102,7 @@ def userpage(id):
   #自分のカテゴリー
   #カテゴリーの編集
   #知り合いかも
-  return render_template('auth/user.html', user=user)
+  return render_template('auth/user.html', user=user, id=id)
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required
@@ -144,3 +144,14 @@ def friends():
 
   return render_template('auth/friends.html', friends=friends)
 
+@bp.route('/<int:id>/add_friend')
+@login_required
+def add_friend(id):
+  db = get_db()
+  db.execute(
+    'INSERT INTO friend (host_id, guest_id)'
+    ' VALUES (?, ?)',
+    (g.user['id'], id)
+  )
+  db.commit()
+  return redirect(url_for('auth.friends'))
