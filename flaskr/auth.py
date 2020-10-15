@@ -121,16 +121,17 @@ def userpage(id):
   for added_list in added_lists:
     is_ok = True
     for add_list in add_lists:
-      print("-------------------------")
-      print(add_list['guest_id'])
-      print(added_list['host_id'])
-      print("-------------------------")
       if add_list['guest_id'] == added_list['host_id']:
         is_ok = False
     if is_ok == True:
       maybe_friends.append(added_list)
 
-  return render_template('auth/user.html', user=user, id=id, maybe_friends=maybe_friends)
+  is_maybe_friend = False
+  for maybe_friend in maybe_friends:
+    if maybe_friend is not None:
+      is_maybe_friend = True
+
+  return render_template('auth/user.html', user=user, id=id, maybe_friends=maybe_friends, is_maybe_friend=is_maybe_friend)
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required

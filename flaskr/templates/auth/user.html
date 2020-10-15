@@ -7,7 +7,9 @@
 {% block content %}
   {% if g.user['id'] == id %}
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
-    <h3>知り合いかも？</h4>
+    {% if is_maybe_friend == True %}
+      <h3>知り合いかも？</h4>
+    {% endif %}
     {% for maybe_friend in maybe_friends %}
       <h4><a class="action" href="{{ url_for('auth.userpage', id=maybe_friend['host_id']) }}">{{ maybe_friend['username'] }}</a></h4>
     {% endfor %}
