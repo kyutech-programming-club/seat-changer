@@ -9,4 +9,8 @@
 <form method="post">
   <input type="submit" value="Finish">
 </form>
+<h4>参加者一覧</h4>
+{% for participant in participants %}
+  <h5>{{ participant['username'] }}</h5>
+{% endfor %}
 {% endblock %}

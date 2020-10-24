@@ -10,8 +10,10 @@
   <hr>
   <form method="post">
   {% for user in users %}
-    <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
-    <input type="checkbox" id="{{ user['guest_id'] }}" name="check" value="{{ user['guest_id'] }}">
+    <div>
+      <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
+      <input type="checkbox" id="{{ user['guest_id'] }}" name="check" value="{{ user['guest_id'] }}">
+    </div>
   {% endfor %}
     <input type="submit" value="Next">
   </form>

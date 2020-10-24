@@ -43,14 +43,23 @@ def invite(id):
 
     if request.method == 'POST':
       participants = request.form.getlist('check')
+
+      db.execute(
+        'INSERT INTO participant (user_id, room_id)'
+        ' VALUES (?, ?)',
+        (g.user['id'], id)
+      )
+      db.commit()
+
       for participant in participants:
         db.execute(
           'INSERT INTO participant (user_id, room_id)'
           ' VALUES (?, ?)',
           (participant, id)
         )
+        db.commit()
 
-      return redirect(url_for('room.category'))
+      return redirect(url_for('room.category', id=id))
     
     users = db.execute(
       'SELECT guest_id, username'
@@ -67,9 +76,11 @@ def invite(id):
     ).fetchone()
     return render_template('room/invite.html', users=users, room=room)
 
-@bp.route('/category', methods=('GET', 'POST'))
+@bp.route('/<int:id>/category', methods=('GET', 'POST'))
 @login_required
-def category():
+def category(id):
+    db = get_db()
+
     if request.method == 'POST':
       return redirect(url_for('room.result'))
     
@@ -80,7 +91,7 @@ def category():
       (id,)
     ).fetchall()
 
-    return render_template('room/category.html')
+    return render_template('room/category.html', participants=participants)
 
 @bp.route('/result')
 @login_required
