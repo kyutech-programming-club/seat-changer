@@ -9,4 +9,11 @@
 <form method="post">
   <input type="submit" value="Finish">
 </form>
+<h4>参加者一覧</h4>
+<form action="{{ url_for('room.delete_participants', id=id) }}" method="post">
+  <input type="submit" value="編集">
+</form>
+{% for participant in participants %}
+  <h5>{{ participant['username'] }}</h5>
+{% endfor %}
 {% endblock %}

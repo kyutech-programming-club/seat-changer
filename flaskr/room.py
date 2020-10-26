@@ -42,7 +42,24 @@ def invite(id):
     db = get_db()
 
     if request.method == 'POST':
-        return redirect(url_for('room.category', id=id))
+      participants = request.form.getlist('check')
+
+      db.execute(
+        'INSERT INTO participant (user_id, room_id)'
+        ' VALUES (?, ?)',
+        (g.user['id'], id)
+      )
+      db.commit()
+
+      for participant in participants:
+        db.execute(
+          'INSERT INTO participant (user_id, room_id)'
+          ' VALUES (?, ?)',
+          (participant, id)
+        )
+        db.commit()
+
+      return redirect(url_for('room.category', id=id))
     
     users = db.execute(
       'SELECT guest_id, username'
@@ -57,15 +74,25 @@ def invite(id):
       ' WHERE r.id = ?', 
       (id,)
     ).fetchone()
+
     return render_template('room/invite.html', users=users, room=room)
 
 @bp.route('/<int:id>/category', methods=('GET', 'POST'))
 @login_required
 def category(id):
+    db = get_db()
+
     if request.method == 'POST':
-        return redirect(url_for('room.result', id=id))
+      return redirect(url_for('room.result', id=id))
     
-    return render_template('room/category.html')
+    participants = db.execute(
+      'SELECT user_id, username'
+      ' FROM participant JOIN user ON user_id = id'
+      ' WHERE room_id = ?',
+      (id,)
+    ).fetchall()
+
+    return render_template('room/category.html', participants=participants, id=id)
 
 @bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
@@ -75,6 +102,10 @@ def result(id):
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
 def delete_room(id):
+
+@bp.route('/<int:id>/delete_participants', methods=('POST',))
+@login_required
+def delete_participants(id):
   db = get_db()
   db.execute(
     'DELETE FROM participant'
@@ -90,4 +121,4 @@ def delete_room(id):
   )
   db.commit()
 
-  return redirect(url_for('room.index'))
+  return redirect(url_for('room.index', id=id))
