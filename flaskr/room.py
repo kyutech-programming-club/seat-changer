@@ -83,7 +83,7 @@ def category(id):
     db = get_db()
 
     if request.method == 'POST':
-      return redirect(url_for('room.result'))
+      return redirect(url_for('room.result', id=id))
     
     participants = db.execute(
       'SELECT user_id, username'
@@ -94,10 +94,14 @@ def category(id):
 
     return render_template('room/category.html', participants=participants, id=id)
 
-@bp.route('/result')
+@bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
-def result():
-    return render_template('room/result.html')
+def result(id):
+    return render_template('room/result.html', id=id)
+
+@bp.route('/<int:id>/delete_room', methods=('POST',))
+@login_required
+def delete_room(id):
 
 @bp.route('/<int:id>/delete_participants', methods=('POST',))
 @login_required
@@ -110,4 +114,11 @@ def delete_participants(id):
   )
   db.commit()
 
-  return redirect(url_for('room.invite', id=id))
+  db.execute(
+    'DELETE FROM room'
+    ' WHERE id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.index', id=id))
