@@ -102,6 +102,15 @@ def result(id):
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
 def delete_room(id):
+  db = get_db()
+  db.execute(
+    'DELETE FROM participant'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.index', id=id))
 
 @bp.route('/<int:id>/delete_participants', methods=('POST',))
 @login_required
@@ -121,4 +130,4 @@ def delete_participants(id):
   )
   db.commit()
 
-  return redirect(url_for('room.index', id=id))
+  return redirect(url_for('room.invite', id=id))
