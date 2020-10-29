@@ -169,7 +169,6 @@ def friends():
         return redirect(url_for('auth.userpage', id=user['id']))
 
 
-
   #自分の友達
   friends = db.execute(
     'SELECT guest_id, username'
@@ -191,3 +190,34 @@ def add_friend(id):
   )
   db.commit()
   return redirect(url_for('auth.friends'))
+
+@bp.route('/<int:id>/user_info', methods=('GET', 'POST'))
+@login_required
+def user_info(id):
+  if request.method == 'POST':
+    db = get_db()
+    gender = request.form.get('gender')
+    alcohol = request.form.get('alcohol')
+    smoke = request.form.get('smoke')
+
+    db.execute(
+      'UPDATE user SET gender = ?'
+      ' WHERE id = ?',
+      (gender, id)
+    )
+
+    db.execute(
+      'INSERT INTO alcohol (user_id, degree)'
+      ' VALUES (?, ?)',
+      (id, alcohol)
+    )
+
+    db.execute(
+      'INSERT INTO smoke (user_id, degree)'
+      ' VALUES (?, ?)',
+      (id, smoke)
+    )
+    db.commit()
+    return redirect(url_for('auth.userpage', id=id))
+
+  return render_template('auth/user_info.html')

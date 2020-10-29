@@ -6,6 +6,7 @@
 
 {% block content %}
   {% if g.user['id'] == id %}
+    <a class="action" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
     {% if is_maybe_friend == True %}
       <h3>知り合いかも？</h4>
