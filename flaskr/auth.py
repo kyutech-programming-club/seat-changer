@@ -100,7 +100,28 @@ def userpage(id):
     (id,)
   ).fetchone()
   #自分のカテゴリー
-  #カテゴリーの編集
+  #カテゴリーの表示
+  gender = db.execute(
+    'SELECT gender'
+    ' FROM user'
+    ' WHERE id = ?',
+    (id,)
+  ).fetchone()
+
+  alcohol = db.execute(
+    'SELECT degree'
+    ' FROM alcohol'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchone()
+
+  smoke = db.execute(
+    'SELECT degree'
+    ' FROM alcohol'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchone()
+
   #知り合いかも
   added_lists = db.execute(
     'SELECT host_id, username'
@@ -138,7 +159,17 @@ def userpage(id):
     if add_list['guest_id'] == id:
       is_friend = False
 
-  return render_template('auth/user.html', user=user, id=id, maybe_friends=maybe_friends, is_maybe_friend=is_maybe_friend, is_friend=is_friend)
+  return render_template(
+    'auth/user.html',
+    user=user,
+    id=id,
+    maybe_friends=maybe_friends,
+    is_maybe_friend=is_maybe_friend,
+    is_friend=is_friend,
+    gender=gender,
+    alcohol=alcohol,
+    smoke=smoke
+    )
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required
