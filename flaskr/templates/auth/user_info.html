@@ -8,26 +8,37 @@
 <form method="post">
     <p><label>性別：
         <select name="gender">
-            <option value="男">男</option>
-            <option value="女">女</option>
-            <option value="その他">その他</option>
+            {% for gen in gender_list %} 
+                {% if gen == gender %}
+                    <option value={{gen}} selected>{{gen}}</option>
+                {% else %}
+                    <option value={{gen}}>{{gen}}</option>
+                {% endif %}
+            {% endfor %}
         </select>
     </label></p>
 
     <p><label>お酒の強さ：
         <select name="alcohol">
-            <option value="たくさん飲む">たくさん飲む</option>
-            <option value="普通">普通</option>
-            <option value="あまり飲まない">あまり飲まない</option>
-            <option value="全く飲まない">全く飲まない</option>
+            {% for alc in alcohol_list %} 
+                {% if alc == alcohol %}
+                    <option value={{alc}} selected>{{alc}}</option>
+                {% else %}
+                    <option value={{alc}}>{{alc}}</option>
+                {% endif %}
+            {% endfor %}
         </select>
     </label></p>
 
     <p><label>たばこ：
         <select name="smoke">
-            <option value="吸う">吸う</option>
-            <option value="吸わない">吸わない</option>
-            <option value="無理">無理</option>
+            {% for smo in smoke_list %} 
+                {% if smo == smoke %}
+                    <option value={{smo}} selected>{{smo}}</option>
+                {% else %}
+                    <option value={{smo}}>{{smo}}</option>
+                {% endif %}
+            {% endfor %}
         </select>
     </label></p>
   <input type="submit" value="完了">

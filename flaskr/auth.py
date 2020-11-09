@@ -22,6 +22,9 @@ def register():
   if request.method == 'POST':
     username = request.form['username']
     password = request.form['password']
+    gender = request.form.get('gender')
+    alcohol = request.form.get('alcohol')
+    smoke = request.form.get('smoke')
     db = get_db()
     error = None
 
@@ -36,8 +39,26 @@ def register():
 
     if error is None:
       db.execute(
-        'INSERT INTO user (username, password) VALUES (?, ?)',
-        (username, generate_password_hash(password))
+        'INSERT INTO user (username, password, gender) VALUES (?, ?, ?)',
+        (username, generate_password_hash(password), gender)
+      )
+
+      user_id = db.execute(
+        'SELECT id FROM user'
+        ' WHERE username = ?',
+        (username,)
+      ).fetchone()
+
+      db.execute(
+        'INSERT INTO alcohol (user_id, degree)'
+        ' VALUES (?, ?)',
+        (user_id['id'], alcohol)
+      )
+
+      db.execute(
+        'INSERT INTO smoke (user_id, degree)'
+        ' VALUES (?, ?)',
+        (user_id['id'], smoke)
       )
       db.commit()
       return redirect(url_for('auth.login'))
@@ -117,7 +138,7 @@ def userpage(id):
 
   smoke = db.execute(
     'SELECT degree'
-    ' FROM alcohol'
+    ' FROM smoke'
     ' WHERE user_id = ?',
     (id,)
   ).fetchone()
@@ -225,8 +246,28 @@ def add_friend(id):
 @bp.route('/<int:id>/user_info', methods=('GET', 'POST'))
 @login_required
 def user_info(id):
+  db = get_db()
+  gender_list = ['男', '女', 'その他']
+  alcohol_list = ['たくさん飲む', '普通', 'あまり飲まない', '全く飲まない']
+  smoke_list = ['吸う', '吸わない', '無理']
+  
+  user_ge = db.execute(
+    'SELECT gender FROM user'
+    ' WHERE id = ?',
+    (id,)
+  ).fetchone()
+  user_al = db.execute(
+    'SELECT degree FROM alcohol'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchone()
+  user_sm = db.execute(
+    'SELECT degree FROM smoke'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchone()
+  
   if request.method == 'POST':
-    db = get_db()
     gender = request.form.get('gender')
     alcohol = request.form.get('alcohol')
     smoke = request.form.get('smoke')
@@ -238,17 +279,17 @@ def user_info(id):
     )
 
     db.execute(
-      'INSERT INTO alcohol (user_id, degree)'
-      ' VALUES (?, ?)',
-      (id, alcohol)
+      'UPDATE alcohol SET degree = ?'
+      ' WHERE user_id = ?',
+      (alcohol, id)
     )
 
     db.execute(
-      'INSERT INTO smoke (user_id, degree)'
-      ' VALUES (?, ?)',
-      (id, smoke)
+      'UPDATE smoke SET degree = ?'
+      ' WHERE user_id = ?',
+      (smoke, id)
     )
     db.commit()
     return redirect(url_for('auth.userpage', id=id))
 
-  return render_template('auth/user_info.html')
+  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'])
