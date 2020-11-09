@@ -23,8 +23,8 @@
       <a class="action" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
     {% endif %}
     <p>
-      {{ gender.gender }} <br>
-      {{ alcohol.degree }} <br>
-      {{ smoke.degree }} <br>
+      性別：{{ gender.gender }} <br>
+      お酒：{{ alcohol.degree }} <br>
+      煙草：{{ smoke.degree }} <br>
     </p>
 {% endblock %}
