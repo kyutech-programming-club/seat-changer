@@ -266,6 +266,10 @@ def user_info(id):
     ' WHERE user_id = ?',
     (id,)
   ).fetchone()
+
+  hobbys = db.execute(
+    'SELECT category FROM hobbys'
+  ).fetchall()
   
   if request.method == 'POST':
     gender = request.form.get('gender')
@@ -292,4 +296,29 @@ def user_info(id):
     db.commit()
     return redirect(url_for('auth.userpage', id=id))
 
-  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'])
+  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'], hobbys=hobbys)
+
+@bp.route('/add_hobbys', methods=('GET', 'POST'))
+@login_required
+def add_hobbys():
+  db = get_db()
+
+  if request.method == 'POST':
+    hobbys = request.form['hobbys']
+
+    db.execute(
+      'INSERT INTO hobbys VALUES (?)',
+      (hobbys,)
+    )
+    db.commit()
+
+    return redirect(url_for('auth.user_info', id=g.user['id']))
+
+  return render_template('auth/add_hobbys.html')
+
+
+
+
+
+
+

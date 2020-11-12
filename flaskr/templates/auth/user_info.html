@@ -43,4 +43,12 @@
     </label></p>
   <input type="submit" value="完了">
 </form>
+<h1>趣味一覧</h1>
+<a href="{{ url_for('auth.add_hobbys') }}">追加</a>
+<p>
+  {% for hobby in hobbys %}
+    ・{{ hobby['category'] }}
+  {% endfor %}
+</p>
+
 {% endblock %}
