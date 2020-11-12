@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}seating-order{% endblock %}</h1>
+  <h1>{% block title %}席順{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-    <h1>席順</h1>
-    <a href="{{ url_for('room.index') }}">Home</a>
+    <h1>席順を表示</h1>
+    <form action="{{ url_for('room.delete_room', id=id) }}" method="post">
+      <input type="submit" value="終了">
+    </form>
 {% endblock %}

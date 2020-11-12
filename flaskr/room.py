@@ -42,7 +42,24 @@ def invite(id):
     db = get_db()
 
     if request.method == 'POST':
-        return redirect(url_for('room.category'))
+      participants = request.form.getlist('check')
+
+      db.execute(
+        'INSERT INTO participant (user_id, room_id)'
+        ' VALUES (?, ?)',
+        (g.user['id'], id)
+      )
+      db.commit()
+
+      for participant in participants:
+        db.execute(
+          'INSERT INTO participant (user_id, room_id)'
+          ' VALUES (?, ?)',
+          (participant, id)
+        )
+        db.commit()
+
+      return redirect(url_for('room.category', id=id))
     
     users = db.execute(
       'SELECT guest_id, username'
@@ -57,17 +74,60 @@ def invite(id):
       ' WHERE r.id = ?', 
       (id,)
     ).fetchone()
+
     return render_template('room/invite.html', users=users, room=room)
 
-@bp.route('/category', methods=('GET', 'POST'))
+@bp.route('/<int:id>/category', methods=('GET', 'POST'))
 @login_required
-def category():
-    if request.method == 'POST':
-        return redirect(url_for('room.result'))
-    
-    return render_template('room/category.html')
+def category(id):
+    db = get_db()
 
-@bp.route('/result')
+    if request.method == 'POST':
+      return redirect(url_for('room.result', id=id))
+    
+    participants = db.execute(
+      'SELECT user_id, username'
+      ' FROM participant JOIN user ON user_id = id'
+      ' WHERE room_id = ?',
+      (id,)
+    ).fetchall()
+
+    return render_template('room/category.html', participants=participants, id=id)
+
+@bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
-def result():
-    return render_template('room/result.html')
+def result(id):
+    return render_template('room/result.html', id=id)
+
+@bp.route('/<int:id>/delete_room', methods=('POST',))
+@login_required
+def delete_room(id):
+  db = get_db()
+  db.execute(
+    'DELETE FROM participant'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.index', id=id))
+
+@bp.route('/<int:id>/delete_participants', methods=('POST',))
+@login_required
+def delete_participants(id):
+  db = get_db()
+  db.execute(
+    'DELETE FROM participant'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+  db.commit()
+
+  db.execute(
+    'DELETE FROM room'
+    ' WHERE id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.invite', id=id))

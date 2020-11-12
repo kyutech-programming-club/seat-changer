@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Invite{% endblock %}</h1>
+  <h1>{% block title %}ユーザーを招待{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <h1>{{ room['title'] }}</h1>
   <div class="about">by {{ room['username'] }}</div>
   <hr>
+  <form method="post">
   {% for user in users %}
     <div>
-      <h3>{{ user['username'] }}</h3>
+      <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
+      <input type="checkbox" id="{{ user['guest_id'] }}" name="check" value="{{ user['guest_id'] }}">
     </div>
   {% endfor %}
-  <form method="post">
     <input type="submit" value="Next">
   </form>
 {% endblock %}

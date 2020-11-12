@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<h1>ユーザーの情報を表示</h1>
   {% if g.user['id'] == id %}
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
     {% if is_maybe_friend == True %}
