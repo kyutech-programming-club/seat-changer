@@ -19,13 +19,19 @@ def login_required(view):
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+  db = get_db()
+
+  hobbys = db.execute(
+    'SELECT category FROM hobbys'
+  ).fetchall()
+
   if request.method == 'POST':
     username = request.form['username']
     password = request.form['password']
     gender = request.form.get('gender')
     alcohol = request.form.get('alcohol')
     smoke = request.form.get('smoke')
-    db = get_db()
+    hobbys = request.form.getlist('check')
     error = None
 
     if not username:
@@ -60,12 +66,20 @@ def register():
         ' VALUES (?, ?)',
         (user_id['id'], smoke)
       )
+
+      for hobby in hobbys:
+        db.execute(
+          'INSERT INTO hobby (user_id, category)'
+          ' VALUES (?, ?)',
+          (user_id['id'], hobby)
+        )
+
       db.commit()
       return redirect(url_for('auth.login'))
 
     flash(error)
 
-  return render_template('auth/register.html')
+  return render_template('auth/register.html', hobbys=hobbys)
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -143,6 +157,12 @@ def userpage(id):
     (id,)
   ).fetchone()
 
+  hobbys = db.execute(
+    'SELECT category FROM hobby'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchall()
+
   #知り合いかも
   added_lists = db.execute(
     'SELECT host_id, username'
@@ -189,7 +209,8 @@ def userpage(id):
     is_friend=is_friend,
     gender=gender,
     alcohol=alcohol,
-    smoke=smoke
+    smoke=smoke,
+    hobbys=hobbys
     )
 
 @bp.route('/friends', methods=('GET', 'POST'))

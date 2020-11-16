@@ -34,6 +34,13 @@
             <option value="無理">無理</option>
         </select>
     </label></p>
+    <h2>趣味</h2>
+    {% for hobby in hobbys %}
+      <div>
+        <label for="{{hobby['category']}}">{{hobby['category']}}</label>
+        <input type="checkbox" id="{{hobby['category']}}" name="check" value="{{hobby['category']}}">
+      </div>
+    {% endfor %}
     <input type="submit" value="Sign in">
   </form>
 {% endblock %}
