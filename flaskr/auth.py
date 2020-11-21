@@ -368,22 +368,35 @@ def add_hobbys(id):
   db = get_db()
 
   if request.method == 'POST':
-    hobbys = request.form['hobbys']
+    new_hobby = request.form['hobbys']
+    
+    hobbys = db.execute(
+      'SELECT category FROM hobbys'
+    ).fetchall()
+    
+    error = None
 
-    db.execute(
-      'INSERT INTO hobbys VALUES (?)',
-      (hobbys,)
-    )
+    for hobby in hobbys:
+      if new_hobby == hobby['category']:
+        error = 'already exist'
+    
+    if error is None:
+      db.execute(
+        'INSERT INTO hobbys VALUES (?)',
+        (new_hobby,)
+      )
 
-    db.execute(
-      'INSERT INTO hobby (user_id, category)'
-      ' VALUES (?, ?)',
-      (id, hobbys)
-    )
-
-    db.commit()
-
-    return redirect(url_for('auth.user_info', id=id))
+      db.execute(
+        'INSERT INTO hobby (user_id, category)'
+        ' VALUES (?, ?)',
+        (id, new_hobby)
+      )
+      db.commit()
+      
+      return redirect(url_for('auth.user_info', id=id))
+    
+    else:
+      flash(error)
 
   return render_template('auth/add_hobbys.html')
 

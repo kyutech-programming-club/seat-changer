@@ -55,5 +55,5 @@ CREATE TABLE smoke (
 );
 
 CREATE TABLE hobbys (
-  category TEXT NOT NULL
+  category TEXT UNIQUE NOT NULL
 )
