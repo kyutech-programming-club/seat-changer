@@ -350,11 +350,21 @@ def user_info(id):
     db.commit()
     return redirect(url_for('auth.userpage', id=id))
 
-  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'], hobbys=hobbys, my_hobbys=my_hobbys)
+  return render_template('auth/user_info.html',
+    gender_list=gender_list,
+    alcohol_list=alcohol_list, 
+    smoke_list=smoke_list,
+    gender=user_ge['gender'],
+    alcohol=user_al['degree'],
+    smoke=user_sm['degree'],
+    hobbys=hobbys,
+    my_hobbys=my_hobbys,
+    id=id
+  )
 
-@bp.route('/add_hobbys', methods=('GET', 'POST'))
+@bp.route('/<int:id>/add_hobbys', methods=('GET', 'POST'))
 @login_required
-def add_hobbys():
+def add_hobbys(id):
   db = get_db()
 
   if request.method == 'POST':
@@ -364,9 +374,16 @@ def add_hobbys():
       'INSERT INTO hobbys VALUES (?)',
       (hobbys,)
     )
+
+    db.execute(
+      'INSERT INTO hobby (user_id, category)'
+      ' VALUES (?, ?)',
+      (id, hobbys)
+    )
+
     db.commit()
 
-    return redirect(url_for('auth.user_info', id=g.user['id']))
+    return redirect(url_for('auth.user_info', id=id))
 
   return render_template('auth/add_hobbys.html')
 

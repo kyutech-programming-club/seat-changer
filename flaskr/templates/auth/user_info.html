@@ -43,7 +43,7 @@
     </label></p>
 
     <h2>趣味一覧</h2>
-    <a href="{{ url_for('auth.add_hobbys') }}">追加</a>
+    <a href="{{ url_for('auth.add_hobbys', id=id) }}">趣味の追加</a>
     {% for my_hobby in my_hobbys %}
       <div>
         <label for="{{ my_hobby['category'] }}">{{ my_hobby['category'] }}</label>
