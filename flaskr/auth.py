@@ -271,17 +271,20 @@ def user_info(id):
   gender_list = ['男', '女', 'その他']
   alcohol_list = ['たくさん飲む', '普通', 'あまり飲まない', '全く飲まない']
   smoke_list = ['吸う', '吸わない', '無理']
+  rm_hobbys = []
   
   user_ge = db.execute(
     'SELECT gender FROM user'
     ' WHERE id = ?',
     (id,)
   ).fetchone()
+
   user_al = db.execute(
     'SELECT degree FROM alcohol'
     ' WHERE user_id = ?',
     (id,)
   ).fetchone()
+
   user_sm = db.execute(
     'SELECT degree FROM smoke'
     ' WHERE user_id = ?',
@@ -291,11 +294,27 @@ def user_info(id):
   hobbys = db.execute(
     'SELECT category FROM hobbys'
   ).fetchall()
-  
+
+  my_hobbys = db.execute(
+    'SELECT category, user_id FROM hobby'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchall()
+
+  for hobby in hobbys:
+    for my_hobby in my_hobbys:
+      if hobby['category'] == my_hobby['category']:
+        rm_hobbys.append(hobby)
+        break
+
+  for rm_hobby in rm_hobbys:
+    hobbys.remove(rm_hobby)
+
   if request.method == 'POST':
     gender = request.form.get('gender')
     alcohol = request.form.get('alcohol')
     smoke = request.form.get('smoke')
+    checked_hobbys = request.form.getlist('check')
 
     db.execute(
       'UPDATE user SET gender = ?'
@@ -314,10 +333,24 @@ def user_info(id):
       ' WHERE user_id = ?',
       (smoke, id)
     )
+
+    db.execute(
+      'DELETE FROM hobby'
+      ' WHERE user_id = ?',
+      (id,)
+    )
+
+    for checked_hobby in checked_hobbys:
+      db.execute(
+        'INSERT INTO hobby (user_id, category)'
+        ' VALUES (?, ?)',
+        (id, checked_hobby)
+      )
+
     db.commit()
     return redirect(url_for('auth.userpage', id=id))
 
-  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'], hobbys=hobbys)
+  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'], hobbys=hobbys, my_hobbys=my_hobbys)
 
 @bp.route('/add_hobbys', methods=('GET', 'POST'))
 @login_required
