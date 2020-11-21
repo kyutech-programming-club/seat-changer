@@ -399,10 +399,3 @@ def add_hobbys(id):
       flash(error)
 
   return render_template('auth/add_hobbys.html')
-
-
-
-
-
-
-
