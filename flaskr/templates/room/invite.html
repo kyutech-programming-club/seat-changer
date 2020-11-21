@@ -9,6 +9,14 @@
   <div class="about">by {{ room['username'] }}</div>
   <hr>
   <form method="post">
+  {% for participant in participants %}
+  {% if participant['user_id'] != g.user['id'] %}
+    <div>
+      <label for="{{ participant['user_id'] }}">{{ participant['username'] }}</label>
+      <input type="checkbox" id="{{ participant['user_id'] }}" name="check" value="{{ participant['user_id'] }}" checked>
+    </div>
+  {% endif %}
+  {% endfor %}
   {% for user in users %}
     <div>
       <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
