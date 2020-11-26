@@ -45,6 +45,12 @@ def invite(id):
       participants = request.form.getlist('check')
 
       db.execute(
+        'DELETE FROM participant'
+        ' WHERE room_id = ?',
+        (id,)
+      )
+
+      db.execute(
         'INSERT INTO participant (user_id, room_id)'
         ' VALUES (?, ?)',
         (g.user['id'], id)
@@ -61,12 +67,30 @@ def invite(id):
 
       return redirect(url_for('room.category', id=id))
     
+    rm_users = []
+
     users = db.execute(
       'SELECT guest_id, username'
       ' FROM friend f JOIN user u ON f.guest_id = u.id'
       ' WHERE host_id = ?',
       (g.user['id'],)
     ).fetchall()
+
+    participants = db.execute(
+      'SELECT user_id, username'
+      ' FROM participant p JOIN user u ON p.user_id = u.id'
+      ' WHERE room_id = ?',
+      (id,)
+    ).fetchall()
+
+    for user in users:
+      for participant in participants:
+        if user['guest_id'] == participant['user_id']:
+          rm_users.append(user)
+          break
+
+    for rm_user in rm_users:
+      users.remove(rm_user)
 
     room = db.execute(
       'SELECT r.id, title, author_id, username'
@@ -75,7 +99,8 @@ def invite(id):
       (id,)
     ).fetchone()
 
-    return render_template('room/invite.html', users=users, room=room)
+
+    return render_template('room/invite.html', users=users, participants=participants, room=room)
 
 @bp.route('/<int:id>/category', methods=('GET', 'POST'))
 @login_required
@@ -108,20 +133,6 @@ def delete_room(id):
     ' WHERE room_id = ?',
     (id,)
   )
-  db.commit()
-
-  return redirect(url_for('room.index', id=id))
-
-@bp.route('/<int:id>/delete_participants', methods=('POST',))
-@login_required
-def delete_participants(id):
-  db = get_db()
-  db.execute(
-    'DELETE FROM participant'
-    ' WHERE room_id = ?',
-    (id,)
-  )
-  db.commit()
 
   db.execute(
     'DELETE FROM room'
@@ -130,4 +141,4 @@ def delete_participants(id):
   )
   db.commit()
 
-  return redirect(url_for('room.invite', id=id))
+  return redirect(url_for('room.index'))

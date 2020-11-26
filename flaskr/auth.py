@@ -19,13 +19,19 @@ def login_required(view):
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+  db = get_db()
+
+  hobbys = db.execute(
+    'SELECT category FROM hobbys'
+  ).fetchall()
+
   if request.method == 'POST':
     username = request.form['username']
     password = request.form['password']
     gender = request.form.get('gender')
     alcohol = request.form.get('alcohol')
     smoke = request.form.get('smoke')
-    db = get_db()
+    hobbys = request.form.getlist('check')
     error = None
 
     if not username:
@@ -60,12 +66,20 @@ def register():
         ' VALUES (?, ?)',
         (user_id['id'], smoke)
       )
+
+      for hobby in hobbys:
+        db.execute(
+          'INSERT INTO hobby (user_id, category)'
+          ' VALUES (?, ?)',
+          (user_id['id'], hobby)
+        )
+
       db.commit()
       return redirect(url_for('auth.login'))
 
     flash(error)
 
-  return render_template('auth/register.html')
+  return render_template('auth/register.html', hobbys=hobbys)
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -143,6 +157,12 @@ def userpage(id):
     (id,)
   ).fetchone()
 
+  hobbys = db.execute(
+    'SELECT category FROM hobby'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchall()
+
   #知り合いかも
   added_lists = db.execute(
     'SELECT host_id, username'
@@ -189,7 +209,8 @@ def userpage(id):
     is_friend=is_friend,
     gender=gender,
     alcohol=alcohol,
-    smoke=smoke
+    smoke=smoke,
+    hobbys=hobbys
     )
 
 @bp.route('/friends', methods=('GET', 'POST'))
@@ -250,27 +271,50 @@ def user_info(id):
   gender_list = ['男', '女', 'その他']
   alcohol_list = ['たくさん飲む', '普通', 'あまり飲まない', '全く飲まない']
   smoke_list = ['吸う', '吸わない', '無理']
+  rm_hobbys = []
   
   user_ge = db.execute(
     'SELECT gender FROM user'
     ' WHERE id = ?',
     (id,)
   ).fetchone()
+
   user_al = db.execute(
     'SELECT degree FROM alcohol'
     ' WHERE user_id = ?',
     (id,)
   ).fetchone()
+
   user_sm = db.execute(
     'SELECT degree FROM smoke'
     ' WHERE user_id = ?',
     (id,)
   ).fetchone()
-  
+
+  hobbys = db.execute(
+    'SELECT category FROM hobbys'
+  ).fetchall()
+
+  my_hobbys = db.execute(
+    'SELECT category, user_id FROM hobby'
+    ' WHERE user_id = ?',
+    (id,)
+  ).fetchall()
+
+  for hobby in hobbys:
+    for my_hobby in my_hobbys:
+      if hobby['category'] == my_hobby['category']:
+        rm_hobbys.append(hobby)
+        break
+
+  for rm_hobby in rm_hobbys:
+    hobbys.remove(rm_hobby)
+
   if request.method == 'POST':
     gender = request.form.get('gender')
     alcohol = request.form.get('alcohol')
     smoke = request.form.get('smoke')
+    checked_hobbys = request.form.getlist('check')
 
     db.execute(
       'UPDATE user SET gender = ?'
@@ -289,7 +333,69 @@ def user_info(id):
       ' WHERE user_id = ?',
       (smoke, id)
     )
+
+    db.execute(
+      'DELETE FROM hobby'
+      ' WHERE user_id = ?',
+      (id,)
+    )
+
+    for checked_hobby in checked_hobbys:
+      db.execute(
+        'INSERT INTO hobby (user_id, category)'
+        ' VALUES (?, ?)',
+        (id, checked_hobby)
+      )
+
     db.commit()
     return redirect(url_for('auth.userpage', id=id))
 
-  return render_template('auth/user_info.html', gender_list=gender_list, alcohol_list=alcohol_list, smoke_list=smoke_list, gender=user_ge['gender'], alcohol=user_al['degree'], smoke=user_sm['degree'])
+  return render_template('auth/user_info.html',
+    gender_list=gender_list,
+    alcohol_list=alcohol_list, 
+    smoke_list=smoke_list,
+    gender=user_ge['gender'],
+    alcohol=user_al['degree'],
+    smoke=user_sm['degree'],
+    hobbys=hobbys,
+    my_hobbys=my_hobbys,
+    id=id
+  )
+
+@bp.route('/<int:id>/add_hobbys', methods=('GET', 'POST'))
+@login_required
+def add_hobbys(id):
+  db = get_db()
+
+  if request.method == 'POST':
+    new_hobby = request.form['hobbys']
+    
+    hobbys = db.execute(
+      'SELECT category FROM hobbys'
+    ).fetchall()
+    
+    error = None
+
+    for hobby in hobbys:
+      if new_hobby == hobby['category']:
+        error = 'already exist'
+    
+    if error is None:
+      db.execute(
+        'INSERT INTO hobbys VALUES (?)',
+        (new_hobby,)
+      )
+
+      db.execute(
+        'INSERT INTO hobby (user_id, category)'
+        ' VALUES (?, ?)',
+        (id, new_hobby)
+      )
+      db.commit()
+      
+      return redirect(url_for('auth.user_info', id=id))
+    
+    else:
+      flash(error)
+
+  return render_template('auth/add_hobbys.html')

@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS friend;
 DROP TABLE IF EXISTS hobby;
 DROP TABLE IF EXISTS alcohol;
 DROP TABLE IF EXISTS smoke;
+DROP TABLE IF EXISTS hobbys;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,7 +38,8 @@ CREATE TABLE friend (
 CREATE TABLE hobby (
   user_id INTEGER NOT NULL,
   category TEXT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES user (id)
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (category) REFERENCES hobbys (category)
 );
 
 CREATE TABLE alcohol (
@@ -51,3 +53,7 @@ CREATE TABLE smoke (
   degree TEXT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
+
+CREATE TABLE hobbys (
+  category TEXT UNIQUE NOT NULL
+)

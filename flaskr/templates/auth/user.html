@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>ユーザーの情報を表示</h1>
   {% if g.user['id'] == id %}
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
     {% if is_maybe_friend == True %}
@@ -24,8 +23,12 @@
       <a class="action" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
     {% endif %}
     <p>
-      性別：{{ gender.gender }} <br>
-      お酒：{{ alcohol.degree }} <br>
-      煙草：{{ smoke.degree }} <br>
+      性別：{{ gender['gender'] }} <br>
+      お酒：{{ alcohol['degree'] }} <br>
+      煙草：{{ smoke['degree'] }} <br>
     </p>
+    <h2>趣味</h2>
+    {% for hobby in hobbys %}
+      ・{{ hobby['category'] }}
+    {% endfor %}
 {% endblock %}
