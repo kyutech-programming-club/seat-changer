@@ -1,26 +1,256 @@
-html { font-family: sans-serif; background: #eee; padding: 1rem; }
-body { max-width: 960px; margin: 0 auto; background: white; }
-h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
-a { color: #377ba8; }
-hr { border: none; border-top: 1px solid lightgray; }
-nav { background: lightgray; display: flex; align-items: center; padding: 0 0.5rem; }
-nav h1 { flex: auto; margin: 0; }
-nav h1 a { text-decoration: none; padding: 0.25rem 0.5rem; }
-nav ul  { display: flex; list-style: none; margin: 0; padding: 0; }
-nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
-.content { padding: 0 1rem 1rem; }
-.content > header { border-bottom: 1px solid lightgray; display: flex; align-items: flex-end; }
-.content > header h1 { flex: auto; margin: 1rem 0 0.25rem 0; }
-.flash { margin: 1em 0; padding: 1em; background: #cae6f6; border: 1px solid #377ba8; }
-.post > header { display: flex; align-items: flex-end; font-size: 0.85em; }
-.post > header > div:first-of-type { flex: auto; }
-.post > header h1 { font-size: 1.5em; margin-bottom: 0; }
-.post .about { color: slategray; font-style: italic; }
-.post .body { white-space: pre-line; }
-.content:last-child { margin-bottom: 0; }
-.content form { margin: 1em 0; display: flex; flex-direction: column; }
-.content label { font-weight: bold; margin-bottom: 0.5em; }
-.content input, .content textarea { margin-bottom: 1em; }
-.content textarea { min-height: 12em; resize: vertical; }
-input.danger { color: #cc2f2e; }
-input[type=submit] { align-self: start; min-width: 10em; }
+html {
+    font-family: sans-serif;
+    background: #eee;
+    padding: 1rem;
+}
+
+body {
+    margin: 0 auto;
+    background: white;
+    width: 100%;
+    height: 96vh;
+}
+
+h1 {
+    font-family: serif;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+a {
+    color: #F06060;
+    text-decoration: none;
+}
+
+
+/* 青丸形ボタン */
+
+.btn--rounded,
+a.btn--rounded {
+    margin: 3rem 0.25rem 0.25rem 0rem;
+    min-width: 4rem;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    background-color: #8CBEB2;
+}
+
+.btn--rounded:active,
+a.btn--rounded:active {
+    color: #fff;
+    background: #3dd4b1;
+}
+
+
+/* ホームに戻る用白立体ボタン */
+
+a.btn--square {
+    color: black;
+    display: block;
+    width: fit-content;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background: #f1e767;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(top, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
+    -webkit-box-shadow: inset 1px 1px 1px #fff;
+    box-shadow: inset 1px 1px 1px #fff;
+}
+
+a.btn--square:active {
+    background: -webkit-gradient(linear, left bottom, left top, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(bottom, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to top, #fdfbfb 0%, #ebedee 100%);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid lightgray;
+}
+
+nav {
+    background: #F2EBBF;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    height: 6rem;
+}
+
+nav h1 {
+    flex: auto;
+    margin: 0;
+}
+
+nav h1 a {
+    text-decoration: none;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a,
+nav ul li span,
+header .action {
+    display: block;
+    padding: 0.5rem;
+}
+
+
+/* .content { padding: 0 1rem 1rem; margin: 1rem 0; height: 100%; } */
+
+.content {
+    padding: 0 1rem 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.content>header {
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    align-items: flex-end;
+}
+
+.content>header h1 {
+    flex: auto;
+    margin: 1rem 0 0.25rem 0;
+}
+
+.flash {
+    margin: 1em 0;
+    padding: 1em;
+    background: #cae6f6;
+    border: 1px solid#8CBEB2;
+}
+
+.post>header {
+    display: flex;
+    align-items: flex-end;
+    font-size: 0.85em;
+}
+
+.post>header>div:first-of-type {
+    flex: auto;
+}
+
+.post>header h1 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+}
+
+.post .about {
+    color: slategray;
+    font-style: italic;
+}
+
+.post .body {
+    white-space: pre-line;
+}
+
+.content:last-child {
+    margin-bottom: 0;
+}
+
+.content form {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #5C4B51;
+    font-family: serif;
+}
+
+.content input,
+.content textarea {
+    margin: auto;
+    margin-bottom: 1em;
+    width: auto;
+}
+
+.content textarea {
+    min-height: 12em;
+    resize: vertical;
+}
+
+input.danger {
+    color: #cc2f2e;
+}
+
+input[type=submit] {
+    align-self: start;
+    min-width: 5em;
+    margin: 0 auto;
+    width: auto;
+}
+
+
+/* オレンジ色のネクストボタン */
+
+
+/* input[type=submit] {
+    display: inline-block;
+    max-width: 180px;
+    text-align: left;
+    background-color: #ffa300;
+    font-size: 16px;
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    border-bottom: 4px solid #d37800;
+  }
+  
+  input[type=submit]:active {
+      transform: translateY(4px);
+      border-bottom: none;
+  } */
+
+
+/* 白色立体のネクストボタン */
+
+input[type=submit] {
+    border: 1px solid #ccc;
+    background: #f1e767;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(top, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
+    -webkit-box-shadow: inset 1px 1px 1px #fff;
+    box-shadow: inset 1px 1px 1px #fff;
+}
+
+input[type=submit]:active {
+    background: -webkit-gradient(linear, left bottom, left top, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(bottom, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to top, #fdfbfb 0%, #ebedee 100%);
+}
+
+input {
+    width: 100%;
+    /*親要素いっぱい広げる*/
+    padding: 10px 15px;
+    /*ボックスを大きくする*/
+    font-size: 16px;
+    border-radius: 3px;
+    /*ボックス角の丸み*/
+    border: 2px solid #ddd;
+    /*枠線*/
+    box-sizing: border-box;
+    /*横幅の解釈をpadding, borderまでとする*/
+}
