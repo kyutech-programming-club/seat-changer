@@ -11,9 +11,6 @@ body {
     height: 96vh;
 }
 
-
-/* h1 { font-family: serif; color: #5C4B51; margin: 1rem 0 0 0; padding: 1rem; white-space: nowrap; } */
-
 h1 {
     font-family: serif;
     color: #5C4B51;
@@ -45,57 +42,6 @@ a.btn--rounded:active {
     color: #fff;
     background: #3dd4b1;
 }
-
-
-/* 縁くっきり型 */
-
-
-/* a.btn--rounded {
-  color: #fff;
-  border-top: 4px solid #48ecc4;
-  border-right: 4px solid #0a5f4a;
-  border-bottom: 4px solid #0f745b;
-  border-left: 4px solid #8cf9de;
-  border-radius: 0;
-  background: #11a37f;
-}
-
-a.btn--rounded:active {
-  color: #fff;
-  border-top: 4px solid #0f745b;
-  border-right: 4px solid #8cf9de;
-  border-bottom: 4px solid #48ecc4;
-  border-left: 4px solid #0a5f4a;
-} */
-
-a.btn--radius {
-    border-radius: 100vh;
-}
-
-
-/* ホームに戻る用オレンジ四角ボタン */
-
-
-/* a.btn--square {
-  display: inline-block;
-  max-width: 180px;
-  text-align: left;
-  background-color: #ffa300;
-  font-size: 16px;
-  color: #FFF;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 4px;
-  border-bottom: 4px solid #d37800;
-  margin: 0 auto;
-}
-  
-  a.btn--square:active {
-      transform: translateY(4px);
-      border-bottom: none;
-  } */
 
 
 /* ホームに戻る用白立体ボタン */
@@ -144,9 +90,6 @@ nav h1 {
 nav h1 a {
     text-decoration: none;
 }
-
-
-/* nav h1 a { text-decoration: none; padding: 0.25rem 0.5rem; } */
 
 nav ul {
     display: flex;
