@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}趣味の追加{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <input name="hobbys" id="hobbys" required>
+    <input type="submit" value="完了">
+  </form>
+{% endblock %}

@@ -42,8 +42,33 @@ def invite(id):
     db = get_db()
 
     if request.method == 'POST':
-        return redirect(url_for('room.category'))
+      participants = request.form.getlist('check')
+
+      db.execute(
+        'DELETE FROM participant'
+        ' WHERE room_id = ?',
+        (id,)
+      )
+
+      db.execute(
+        'INSERT INTO participant (user_id, room_id)'
+        ' VALUES (?, ?)',
+        (g.user['id'], id)
+      )
+      db.commit()
+
+      for participant in participants:
+        db.execute(
+          'INSERT INTO participant (user_id, room_id)'
+          ' VALUES (?, ?)',
+          (participant, id)
+        )
+        db.commit()
+
+      return redirect(url_for('room.category', id=id))
     
+    rm_users = []
+
     users = db.execute(
       'SELECT guest_id, username'
       ' FROM friend f JOIN user u ON f.guest_id = u.id'
@@ -51,23 +76,69 @@ def invite(id):
       (g.user['id'],)
     ).fetchall()
 
+    participants = db.execute(
+      'SELECT user_id, username'
+      ' FROM participant p JOIN user u ON p.user_id = u.id'
+      ' WHERE room_id = ?',
+      (id,)
+    ).fetchall()
+
+    for user in users:
+      for participant in participants:
+        if user['guest_id'] == participant['user_id']:
+          rm_users.append(user)
+          break
+
+    for rm_user in rm_users:
+      users.remove(rm_user)
+
     room = db.execute(
       'SELECT r.id, title, author_id, username'
       ' FROM room r JOIN user u ON r.author_id = u.id'
       ' WHERE r.id = ?', 
       (id,)
     ).fetchone()
-    return render_template('room/invite.html', users=users, room=room)
 
-@bp.route('/category', methods=('GET', 'POST'))
+
+    return render_template('room/invite.html', users=users, participants=participants, room=room)
+
+@bp.route('/<int:id>/category', methods=('GET', 'POST'))
 @login_required
-def category():
+def category(id):
+    db = get_db()
+
     if request.method == 'POST':
-        return redirect(url_for('room.result'))
+      return redirect(url_for('room.result', id=id))
     
-    return render_template('room/category.html')
+    participants = db.execute(
+      'SELECT user_id, username'
+      ' FROM participant JOIN user ON user_id = id'
+      ' WHERE room_id = ?',
+      (id,)
+    ).fetchall()
 
-@bp.route('/result')
+    return render_template('room/category.html', participants=participants, id=id)
+
+@bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
-def result():
-    return render_template('room/result.html')
+def result(id):
+    return render_template('room/result.html', id=id)
+
+@bp.route('/<int:id>/delete_room', methods=('POST',))
+@login_required
+def delete_room(id):
+  db = get_db()
+  db.execute(
+    'DELETE FROM participant'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+
+  db.execute(
+    'DELETE FROM room'
+    ' WHERE id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.index'))

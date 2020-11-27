@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}情報の編集{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <p><label>性別：
+        <select name="gender">
+            {% for gen in gender_list %} 
+                {% if gen == gender %}
+                    <option value={{gen}} selected>{{gen}}</option>
+                {% else %}
+                    <option value={{gen}}>{{gen}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </label></p>
+
+    <p><label>お酒の強さ：
+        <select name="alcohol">
+            {% for alc in alcohol_list %} 
+                {% if alc == alcohol %}
+                    <option value={{alc}} selected>{{alc}}</option>
+                {% else %}
+                    <option value={{alc}}>{{alc}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </label></p>
+
+    <p><label>たばこ：
+        <select name="smoke">
+            {% for smo in smoke_list %} 
+                {% if smo == smoke %}
+                    <option value={{smo}} selected>{{smo}}</option>
+                {% else %}
+                    <option value={{smo}}>{{smo}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </label></p>
+
+    <h2>趣味一覧</h2>
+    <a href="{{ url_for('auth.add_hobbys', id=id) }}">趣味の追加</a>
+    {% for my_hobby in my_hobbys %}
+      <div>
+        <label for="{{ my_hobby['category'] }}">{{ my_hobby['category'] }}</label>
+        <input type="checkbox" id="{{ my_hobby['category'] }}" name="check" value="{{ my_hobby['category'] }}" checked>
+      </div>
+    {% endfor %}
+
+    {% for hobby in hobbys %}
+      <div>
+        <label for="{{ hobby['category'] }}">{{ hobby['category'] }}</label>
+        <input type="checkbox" id="{{ hobby['category'] }}" name="check" value="{{ hobby['category'] }}">
+      </div>
+    {% endfor %}
+
+  <input type="submit" value="完了">
+</form>
+{% endblock %}
