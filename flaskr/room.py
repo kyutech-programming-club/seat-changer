@@ -65,7 +65,7 @@ def invite(id):
         )
         db.commit()
 
-      return redirect(url_for('room.category', id=id))
+      return redirect(url_for('room.seat_shape', id=id))
     
     rm_users = []
 
@@ -101,6 +101,25 @@ def invite(id):
 
 
     return render_template('room/invite.html', users=users, participants=participants, room=room)
+
+@bp.route('/<int:id>/seat_shape', methods=('GET', 'POST'))
+@login_required
+def seat_shape(id):
+  db = get_db()
+  
+  if request.method == 'POST':
+    shape = request.form.get('shape')
+    
+    return redirect(url_for('room.category', id=id))
+
+  participants = db.execute(
+    'SELECT user_id, username'
+    ' FROM participant JOIN user ON user_id = id'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchall()
+
+  return render_template('room/seat_shape.html', participants=participants, id=id)
 
 @bp.route('/<int:id>/category', methods=('GET', 'POST'))
 @login_required
@@ -142,3 +161,4 @@ def delete_room(id):
   db.commit()
 
   return redirect(url_for('room.index'))
+

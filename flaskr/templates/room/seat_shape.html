@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}席の形{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h3>席の形を選択</h3>
+  <form method="post">
+    <p>
+      <input type="radio" name="shape" value="0">対面（１）
+      <input type="radio" name="shape" value="1">対面（２）
+      <input type="radio" name="shape" value="2">円卓
+    </p>
+    <input type="submit" value="次へ">
+  </form>
+  <h4>参加者一覧</h4>
+  <a href="{{ url_for('room.invite', id=id) }}">編集</a>
+  {% for participant in participants %}
+    <h5>{{ participant['username'] }}</h5>
+  {% endfor %}
+{% endblock %}
