@@ -108,6 +108,7 @@ def category(id):
     db = get_db()
 
     if request.method == 'POST':
+      shape = request.form.get('shape')
       return redirect(url_for('room.result', id=id))
     
     participants = db.execute(
@@ -142,3 +143,4 @@ def delete_room(id):
   db.commit()
 
   return redirect(url_for('room.index'))
+
