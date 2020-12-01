@@ -15,7 +15,9 @@
   />
   <input type="submit" , value="友達検索" />
 </form>
+<div class="scroll">
   {% for friend in friends %}
     <h4><a class="action" href="{{ url_for('auth.userpage', id=friend['guest_id']) }}">{{ friend['username'] }}</a></h4>
   {% endfor %}
+</div>
 {% endblock %}
