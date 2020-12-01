@@ -5,6 +5,21 @@
 {% endblock %}
 
 {% block content %}
+  <h2>ユーザーの情報</h2>
+  <p>
+    性別：{{ gender['gender'] }} <br>
+    お酒：{{ alcohol['degree'] }} <br>
+    煙草：{{ smoke['degree'] }} <br>
+  </p>
+  <h2>趣味</h2>
+  <div class="scroll">
+    {% for hobby in hobbys %}
+      {{ hobby['category'] }}<br>
+    {% endfor %}
+</div>
+  {% if g.user['id'] == id %}
+    <a class="action btn--square" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
+  {% endif %}
   {% if g.user['id'] == id %}
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
     {% if is_maybe_friend == True %}
@@ -15,20 +30,7 @@
     {% endfor %}
   {% else %}
     {% if is_friend == True %}
-      <a class="action" href="{{ url_for('auth.add_friend', id=id) }}">友達追加</a>
+      <a class="action btn--square" href="{{ url_for('auth.add_friend', id=id) }}">友達追加</a>
     {% endif %}
   {% endif %}
-  <h2>ユーザーの情報</h2>
-    {% if g.user['id'] == id %}
-      <a class="action" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
-    {% endif %}
-    <p>
-      性別：{{ gender['gender'] }} <br>
-      お酒：{{ alcohol['degree'] }} <br>
-      煙草：{{ smoke['degree'] }} <br>
-    </p>
-    <h2>趣味</h2>
-    {% for hobby in hobbys %}
-      ・{{ hobby['category'] }}
-    {% endfor %}
 {% endblock %}

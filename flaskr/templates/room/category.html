@@ -40,7 +40,9 @@
 </form>
 <h4>参加者一覧</h4>
 <a href="{{ url_for('room.invite', id=id) }}">編集</a>
+<div class="scroll">
 {% for participant in participants %}
   <h5>{{ participant['username'] }}</h5>
 {% endfor %}
+</div>
 {% endblock %}

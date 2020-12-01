@@ -44,19 +44,20 @@
 
     <h2>趣味一覧</h2>
     <a href="{{ url_for('auth.add_hobbys', id=id) }}">趣味の追加</a>
-    {% for my_hobby in my_hobbys %}
-      <div>
-        <label for="{{ my_hobby['category'] }}">{{ my_hobby['category'] }}</label>
-        <input type="checkbox" id="{{ my_hobby['category'] }}" name="check" value="{{ my_hobby['category'] }}" checked>
-      </div>
-    {% endfor %}
-
-    {% for hobby in hobbys %}
-      <div>
-        <label for="{{ hobby['category'] }}">{{ hobby['category'] }}</label>
-        <input type="checkbox" id="{{ hobby['category'] }}" name="check" value="{{ hobby['category'] }}">
-      </div>
-    {% endfor %}
+    <div class="scroll">
+        {% for my_hobby in my_hobbys %}
+        <div>
+            <label for="{{ my_hobby['category'] }}">{{ my_hobby['category'] }}</label>
+            <input type="checkbox" id="{{ my_hobby['category'] }}" name="check" value="{{ my_hobby['category'] }}" checked>
+        </div>
+        {% endfor %}
+        {% for hobby in hobbys %}
+        <div>
+            <label for="{{ hobby['category'] }}">{{ hobby['category'] }}</label>
+            <input type="checkbox" id="{{ hobby['category'] }}" name="check" value="{{ hobby['category'] }}">
+        </div>
+        {% endfor %}
+    </div>
 
   <input type="submit" value="完了">
 </form>
