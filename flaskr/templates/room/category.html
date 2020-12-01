@@ -5,9 +5,38 @@
 {% endblock %}
 
 {% block content %}
-<h1>カテゴリを表示</h1>
 <form method="post">
-  <input type="submit" value="Finish">
+  <div>
+    <label for="somke">タバコ</label>
+    <input type="hidden" name="somke" value="0">
+    <input type="checkbox" id="somke" name="somke" value="1">
+    <label for="alcohol">お酒</label>
+    <input type="hidden" name="alcohol" value="0">
+    <input type="checkbox" id="alcohol" name="alcohol" value="1">
+    <label for="hobby">趣味</label>
+    <input type="hidden" name="hobby" value="0">
+    <input type="checkbox" id="hobby" name="hobby" value="1">
+  </div>
+
+  <div>
+    <label>性別
+      <select name="gender">
+        <option value="0">ランダム</option>
+        <option value="1">男女別</option>
+        <option value="2">交互</option>
+      </select>
+    </label>
+  </div>
+
+  <h2>席の形を選んでください</h2>
+  <div>
+    <input type="radio" name="shape" value="0" checked>対面（１）
+    <input type="radio" name="shape" value="1">対面（２）
+  </div>
+
+  <div>
+    <input type="submit" value="Finish">
+  </div>
 </form>
 <h4>参加者一覧</h4>
 <a href="{{ url_for('room.invite', id=id) }}">編集</a>
