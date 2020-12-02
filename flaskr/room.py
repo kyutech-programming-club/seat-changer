@@ -48,7 +48,58 @@ def hobby_divide_sort_list(participants_list):
 
   return divide_sort_list
 
-def change_user_id_to_user_ofbect_list(user_id_list):
+def hobby_is_existing(existing_list, compare_list):
+  for existing in existing_list:
+    if existing == compare_list[:-1]:
+      return True
+
+  return False
+
+def hobby_is_included(temporary_match_hobby_list, participants_list):
+  check_number = 0
+
+  for participant in participants_list:
+    for temporary_match_hobby in temporary_match_hobby_list:
+      if participant['user_id'] in temporary_match_hobby:
+        check_number += 1
+        break
+
+  if check_number == len(participants_list):
+    return True
+  else:
+    return False
+
+def hobby_create_match_hobby_list(divide_sort_list, participants_list):
+  match_hobby_list = []
+  existing_list = []
+  index_list = [[0, 0, 1, 0, 1],
+                [0, 1, 1, 0, 0],
+                [1, 1, 0, 1, 0],
+                [1, 0, 0, 1, 1]]
+
+  for i in range(len(divide_sort_list)):
+    if hobby_is_existing(existing_list, divide_sort_list[i]) == False:
+      check = 0
+      for j in range(len(divide_sort_list) - i - 1):
+        for index in index_list:
+          if divide_sort_list[i][index[0]] == divide_sort_list[i + j + 1][index[1]]:
+            match_list = [divide_sort_list[i][index[2]], divide_sort_list[i][index[3]], divide_sort_list[i + j + 1][index[4]]]
+            match_hobby_list.append(match_list)
+
+            exist = [divide_sort_list[i + j + 1][0], divide_sort_list[i + j + 1][1]]
+            existing_list.append(exist)
+
+            check = 1
+
+        if check == 1:
+          break
+
+    if hobby_is_included(match_hobby_list, participants_list) == True:
+      break
+
+  return match_hobby_list
+
+def hobby_change_user_id_to_user_ofbect_list(user_id_list):
   db = get_db()
   user_object_list = []
 
@@ -64,7 +115,7 @@ def change_user_id_to_user_ofbect_list(user_id_list):
 
   return user_object_list
 
-def hobby_seat_change(sort_participants_list):
+def hobby_seat_change(sort_participants_list, participants_list):
   result = []
 
   return result
@@ -194,6 +245,7 @@ def category(id):
 
       print("--------------------------------------------------")
       print(hobby_divide_sort_list(participants))
+      print(hobby_create_match_hobby_list(hobby_divide_sort_list(participants), participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
