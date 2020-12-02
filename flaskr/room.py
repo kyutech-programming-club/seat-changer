@@ -6,21 +6,17 @@ from flaskr.db import get_db
 
 bp = Blueprint('room', __name__)
 
-def hobby_of_users_create(participants_list):
+def hobby_of_users_create(participant):
   db = get_db()
-  hobbys_of_users_list = []
+  
+  hobbys = db.execute(
+    'SELECT category'
+    ' FROM hobby'
+    ' WHERE user_id = ?',
+    (participant['user_id'],)
+  ).fetchall()
 
-  for participant in participants_list:
-    hobbys = db.execute(
-      'SELECT category'
-      ' FROM hobby'
-      ' WHERE user_id = ?',
-      (participant['user_id'],)
-    ).fetchall()
-
-    hobbys_of_users_list.append(hobbys)
-
-  return hobbys_of_users_list
+  return hobbys
 
 def hobby_search(hobbys_of_user1, hobbys_of_user2):
   match_number = 0
@@ -34,10 +30,27 @@ def hobby_search(hobbys_of_user1, hobbys_of_user2):
   return match_number
 
 def hobby_divide_list(participants_list):
+  search_list = []
+  divide_list = []
+
+  for i, user1 in enumerate(participants_list):
+    for user2 in participants_list[i + 1:]:
+      match_num = hobby_search(hobby_of_users_create(user1), hobby_of_users_create(user2))
+
+      search_list.append(user1['user_id'])
+      search_list.append(user2['user_id'])
+      search_list.append(match_num)
+      divide_list.append(search_list)
+
+      search_list = []
+
+  return divide_list
+
+def hobby_sort_list(divide_participants_list):
 
   return result
 
-def hobby_seat_change(divide_participants_list):
+def hobby_seat_change(sort_participants_list):
   result = []
 
   return result
@@ -166,7 +179,7 @@ def category(id):
       print("--------------------------------------------------")
 
       print("--------------------------------------------------")
-      print(hobby_of_users_create(participants))
+      print(hobby_divide_list(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
