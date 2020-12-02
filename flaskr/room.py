@@ -108,7 +108,20 @@ def category(id):
     db = get_db()
 
     if request.method == 'POST':
-      shape = request.form.get('shape')
+      smoke_check = request.form.get('smoke')
+      alcohol_check = request.form.get('alcohol')
+      hobby_check = request.form.get('hobby')
+      gender_check = request.form.get('gender')
+      shape_check = request.form.get('shape')
+
+      print("--------------------------------------------------")
+      print(smoke_check)
+      print(alcohol_check)
+      print(hobby_check)
+      print(gender_check)
+      print(shape_check)
+      print("--------------------------------------------------")
+
       return redirect(url_for('room.result', id=id))
     
     participants = db.execute(
