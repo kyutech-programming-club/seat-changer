@@ -6,6 +6,42 @@ from flaskr.db import get_db
 
 bp = Blueprint('room', __name__)
 
+def hobby_of_users_create(participants_list):
+  db = get_db()
+  hobbys_of_users_list = []
+
+  for participant in participants_list:
+    hobbys = db.execute(
+      'SELECT category'
+      ' FROM hobby'
+      ' WHERE user_id = ?',
+      (participant['user_id'],)
+    ).fetchall()
+
+    hobbys_of_users_list.append(hobbys)
+
+  return hobbys_of_users_list
+
+def hobby_search(hobbys_of_user1, hobbys_of_user2):
+  match_number = 0
+
+  for hobby1 in hobbys_of_user1:
+    for hobby2 in hobbys_of_user2:
+      if hobby1['category'] == hobby2['category']:
+        match_number += 1
+        break
+
+  return match_number
+
+def hobby_divide_list(participants_list):
+
+  return result
+
+def hobby_seat_change(divide_participants_list):
+  result = []
+
+  return result
+
 @bp.route('/', methods=('GET', 'POST'))
 @login_required
 def index():
@@ -107,6 +143,13 @@ def invite(id):
 def category(id):
     db = get_db()
 
+    participants = db.execute(
+      'SELECT user_id, username'
+      ' FROM participant JOIN user ON user_id = id'
+      ' WHERE room_id = ?',
+      (id,)
+    ).fetchall()
+
     if request.method == 'POST':
       smoke_check = request.form.get('smoke')
       alcohol_check = request.form.get('alcohol')
@@ -122,15 +165,12 @@ def category(id):
       print(shape_check)
       print("--------------------------------------------------")
 
+      print("--------------------------------------------------")
+      print(hobby_of_users_create(participants))
+      print("--------------------------------------------------")
+
       return redirect(url_for('room.result', id=id))
     
-    participants = db.execute(
-      'SELECT user_id, username'
-      ' FROM participant JOIN user ON user_id = id'
-      ' WHERE room_id = ?',
-      (id,)
-    ).fetchall()
-
     return render_template('room/category.html', participants=participants, id=id)
 
 @bp.route('/<int:id>/result', methods=('GET', 'POST'))
