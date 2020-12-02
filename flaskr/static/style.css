@@ -69,6 +69,46 @@ a.btn--square:active {
     background: linear-gradient(to top, #fdfbfb 0%, #ebedee 100%);
 }
 
+/* 座席 */
+a.seat {
+    color: #fff;
+    background-color: #eb6100;
+    line-height: 4rem;
+    padding: 0.5rem 1rem;
+    margin-top: 25%;
+    font-size: 16px;
+    border-radius: 100%;
+    box-sizing: border-box;
+  }
+
+  /* a.seat {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: #eb6100;
+    color: #fff;
+
+  } */
+
+  a.seat:active {
+    color: black;
+    background: #f56500;
+}
+
+.table-margin {
+    /* position: absolute; */
+    width: 50%;
+    /*親要素いっぱい広げる*/
+    padding: 10px 15px;
+    /*ボックスを大きくする*/
+    /* margin: 0.25rem; */
+    border: 2px solid #ddd;
+    /*枠線*/
+    display: inline-block;
+}
+
+
 .scroll {
     overflow: scroll;
     border: gray 0.5px solid;
@@ -80,6 +120,11 @@ a.btn--square:active {
     border-radius: 3px;
     border: 2px solid #ddd;
     box-sizing: border-box;
+}
+
+.seats {
+    max-height: 28rem;
+    text-align: center;   
 }
 
 hr {
