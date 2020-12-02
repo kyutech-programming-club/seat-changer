@@ -48,6 +48,22 @@ def hobby_divide_sort_list(participants_list):
 
   return divide_sort_list
 
+def change_user_id_to_user_ofbect_list(user_id_list):
+  db = get_db()
+  user_object_list = []
+
+  for user_id in user_id_list:
+    user = db.execute(
+      'SELECT username'
+      ' FROM user'
+      ' WHERE id = ?',
+      (user_id,)
+    ).fetchone()
+
+    user_object_list.append(user)
+
+  return user_object_list
+
 def hobby_seat_change(sort_participants_list):
   result = []
 
