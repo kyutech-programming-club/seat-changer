@@ -1,5 +1,7 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from werkzeug.exceptions import abort
+import itertools
+import random
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
@@ -48,77 +50,54 @@ def hobby_divide_sort_list(participants_list):
 
   return divide_sort_list
 
-def hobby_is_existing(existing_list, compare_list):
-  for existing in existing_list:
-    if existing == compare_list[:-1]:
-      return True
+def hobby_score_number(participants_order, divide_list):
+  score = 0
 
-  return False
+  for i in range(len(participants_order) - 2):
+    for j in range(1, 3):
+      for divide in divide_list:
+        next_to_order = [participants_order[i]['user_id'], participants_order[i + j]['user_id']]
+        if next_to_order == divide[:-1]:
+          score += divide[2] * j
 
-def hobby_is_included(temporary_match_hobby_list, participants_list):
-  check_number = 0
+  last_next_order = [participants_order[-2]['user_id'], participants_order[-1]['user_id']]
+  for divide in divide_list:
+    if last_next_order == divide[:-1]:
+      score += divide[2]
 
-  for participant in participants_list:
-    for temporary_match_hobby in temporary_match_hobby_list:
-      if participant['user_id'] in temporary_match_hobby:
-        check_number += 1
+  return score
+
+def hobby_high_score_index(score_list):
+  index_list = []
+  high_score_list = sorted(score_list, reverse=True)
+
+  for i, score in enumerate(score_list):
+    for high_score in high_score_list[:3]:
+      if high_score == score:
+        index_list.append(i)
         break
 
-  if check_number == len(participants_list):
-    return True
-  else:
-    return False
+  return index_list
 
-def hobby_create_match_hobby_list(divide_sort_list, participants_list):
-  match_hobby_list = []
-  existing_list = []
-  index_list = [[0, 0, 1, 0, 1],
-                [0, 1, 1, 0, 0],
-                [1, 1, 0, 1, 0],
-                [1, 0, 0, 1, 1]]
+def hobby_high_score_list(participants_list, divide_list):
+  all_pattern_list = list(itertools.permutations(participants_list))
+  score_list = []
+  high_score_list = []
 
-  for i in range(len(divide_sort_list)):
-    if hobby_is_existing(existing_list, divide_sort_list[i]) == False:
-      check = 0
-      for j in range(len(divide_sort_list) - i - 1):
-        for index in index_list:
-          if divide_sort_list[i][index[0]] == divide_sort_list[i + j + 1][index[1]]:
-            match_list = [divide_sort_list[i][index[2]], divide_sort_list[i][index[3]], divide_sort_list[i + j + 1][index[4]]]
-            match_hobby_list.append(match_list)
+  for one_pattern_order in all_pattern_list:
+    score_list.append(hobby_score_number(one_pattern_order, divide_list))
 
-            exist = [divide_sort_list[i + j + 1][0], divide_sort_list[i + j + 1][1]]
-            existing_list.append(exist)
+  for index in hobby_high_score_index(score_list):
+    high_score_list.append(all_pattern_list[index])
 
-            check = 1
+  return high_score_list
 
-        if check == 1:
-          break
+def hobby_seat_change(participants_list):
+  divide_list = hobby_divide_sort_list(participants_list)
+  seat_result = hobby_high_score_list(participants_list, divide_list)
+  random.shuffle(seat_result)
 
-    if hobby_is_included(match_hobby_list, participants_list) == True:
-      break
-
-  return match_hobby_list
-
-def hobby_change_user_id_to_user_ofbect_list(user_id_list):
-  db = get_db()
-  user_object_list = []
-
-  for user_id in user_id_list:
-    user = db.execute(
-      'SELECT username'
-      ' FROM user'
-      ' WHERE id = ?',
-      (user_id,)
-    ).fetchone()
-
-    user_object_list.append(user)
-
-  return user_object_list
-
-def hobby_seat_change(sort_participants_list, participants_list):
-  result = []
-
-  return result
+  return seat_result[0]
 
 @bp.route('/', methods=('GET', 'POST'))
 @login_required
@@ -244,8 +223,7 @@ def category(id):
       print("--------------------------------------------------")
 
       print("--------------------------------------------------")
-      print(hobby_divide_sort_list(participants))
-      print(hobby_create_match_hobby_list(hobby_divide_sort_list(participants), participants))
+      print(hobby_seat_change(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
