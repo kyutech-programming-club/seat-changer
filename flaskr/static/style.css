@@ -70,7 +70,7 @@ a.btn--square:active {
 }
 
 /* 座席 */
-a.seat {
+/* a.seat {
     color: #fff;
     background-color: #eb6100;
     line-height: 4rem;
@@ -79,9 +79,9 @@ a.seat {
     font-size: 16px;
     border-radius: 100%;
     box-sizing: border-box;
-  }
+  } */
 
-  /* a.seat {
+  a.seat {
     display: inline-block;
     width: 2rem;
     height: 2rem;
@@ -89,7 +89,7 @@ a.seat {
     background-color: #eb6100;
     color: #fff;
 
-  } */
+  }
 
   a.seat:active {
     color: black;
