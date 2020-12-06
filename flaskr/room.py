@@ -138,6 +138,17 @@ def smoke_divide_list(smoke_list):
 
   return divide_list
 
+def smoke_change_object_list(id_list, participants_list):
+  object_list = []
+
+  for list_id in id_list:
+    for participant in participants_list:
+      if list_id == participant['user_id']:
+        object_list.append(participant)
+        break
+
+  return object_list
+
 def smoke_seat_change():
 
   return seat_result
