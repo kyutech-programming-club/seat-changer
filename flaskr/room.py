@@ -138,6 +138,17 @@ def smoke_divide_list(smoke_list):
 
   return divide_list
 
+def smoke_shuffle_list(divide_list):
+  order_list = []
+
+  for one_list in divide_list:
+    random.shuffle(one_list)
+
+    for one_id in one_list:
+      order_list.append(one_id)
+
+  return order_list
+
 def smoke_change_object_list(id_list, participants_list):
   object_list = []
 
@@ -149,7 +160,10 @@ def smoke_change_object_list(id_list, participants_list):
 
   return object_list
 
-def smoke_seat_change():
+def smoke_seat_change(participants_list):
+  divide_list = smoke_divide_list(smoke_create_user_list(participants_list))
+  id_order_list = smoke_shuffle_list(divide_list)
+  seat_result = smoke_change_object_list(id_order_list, participants_list)
 
   return seat_result
 #--------------------------------------------------
@@ -279,7 +293,7 @@ def category(id):
 
       print("--------------------------------------------------")
       # print(hobby_seat_change(participants))
-      print(smoke_divide_list(smoke_create_user_list(participants)))
+      print(smoke_seat_change(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
