@@ -221,6 +221,9 @@ def by_gender_divide_list(participants_list):
     elif by_gender['gender'] == "その他":
       divide_list[random.randint(0, 1)].append(by_gender['id'])
 
+  if random.randint(0, 1) == 1:
+    divide_list[0], divide_list[1] = divide_list[1], divide_list[0]
+
   return divide_list
 
 def by_gender_seat_change(participants_list):
