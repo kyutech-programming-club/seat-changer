@@ -99,6 +99,75 @@ def hobby_seat_change(participants_list):
 
   return seat_result[0]
 
+#--------------------------------------------------
+def smoke_create_user_list(participants_list):
+  db = get_db()
+
+  smoke_list = []
+
+  for participant in participants_list:
+    smoke = db.execute(
+      'SELECT user_id, degree'
+      ' FROM smoke'
+      ' WHERE user_id = ?',
+      (participant['user_id'],)
+    ).fetchone()
+
+    smoke_list.append(smoke)
+
+  return smoke_list
+
+def smoke_divide_list(smoke_list):
+  smoker = []
+  non_smoker = []
+  hate_smoke = []
+
+  for smoke in smoke_list:
+    if smoke['degree'] == "吸う":
+      smoker.append(smoke['user_id'])
+    elif smoke['degree'] == "吸わない":
+      non_smoker.append(smoke['user_id'])
+    elif smoke['degree'] == "無理":
+      hate_smoke.append(smoke['user_id'])
+
+  divide_list = []
+
+  divide_list.append(smoker)
+  divide_list.append(non_smoker)
+  divide_list.append(hate_smoke)
+
+  return divide_list
+
+def smoke_shuffle_list(divide_list):
+  order_list = []
+
+  for one_list in divide_list:
+    random.shuffle(one_list)
+
+    for one_id in one_list:
+      order_list.append(one_id)
+
+  return order_list
+
+def smoke_change_object_list(id_list, participants_list):
+  object_list = []
+
+  for list_id in id_list:
+    for participant in participants_list:
+      if list_id == participant['user_id']:
+        object_list.append(participant)
+        break
+
+  return object_list
+
+def smoke_seat_change(participants_list):
+  divide_list = smoke_divide_list(smoke_create_user_list(participants_list))
+  id_order_list = smoke_shuffle_list(divide_list)
+  seat_result = smoke_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+#--------------------------------------------------
+
 @bp.route('/', methods=('GET', 'POST'))
 @login_required
 def index():
@@ -214,16 +283,17 @@ def category(id):
       gender_check = request.form.get('gender')
       shape_check = request.form.get('shape')
 
-      print("--------------------------------------------------")
-      print(smoke_check)
-      print(alcohol_check)
-      print(hobby_check)
-      print(gender_check)
-      print(shape_check)
-      print("--------------------------------------------------")
+      # print("--------------------------------------------------")
+      # print(smoke_check)
+      # print(alcohol_check)
+      # print(hobby_check)
+      # print(gender_check)
+      # print(shape_check)
+      # print("--------------------------------------------------")
 
       print("--------------------------------------------------")
-      print(hobby_seat_change(participants))
+      # print(hobby_seat_change(participants))
+      print(smoke_seat_change(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
