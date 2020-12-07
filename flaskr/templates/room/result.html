@@ -5,32 +5,24 @@
 {% endblock %}
 
 {% block content %}
-{% set menbers = ['てすと', 'てすざわ', 'てすした', 'てすだ', 'てすやま', 'てすぎ', 'てすのうち', 'てす', 'てすがわ' ] %}
 
   <h1>席順を表示</h1>
   <div class="seats scroll">
     <!-- 誕生日席付きの場合 -->
-    <a href="" class="seat">{{ menbers[0] }}</a>
-      <!-- 奇数の時 -->
-      {% if menbers | length % 2 == 1 %}
-        {% for i in range(menbers | length // 2) %}
-          <div class="seat-line">
-            <a href="" class="seat">{{ menbers[(i+1)*2-1] }}</a>
-            <div class="table-margin"></div>
-            <a href="" class="seat">{{ menbers[(i+1)*2] }}</a>
-          </div>
-        {% endfor %}
-      <!-- 偶数の時 -->
-      {% else %}
-        {% for i in range(menbers | length // 2 - 1) %}
-          <div class="seat-line">
-            <a href="" class="seat">{{ menbers[(i+1)*2-1] }}</a>
-            <div class="table-margin"></div>
-            <a href="" class="seat">{{ menbers[(i+1)*2] }}</a>
-          </div>
-        {% endfor %}
-        <a href="" class="seat">{{ menbers[-1] }}</a>
+    {% if shape_check == 1 %}
+      <a href="" class="seat">{{ seat_order[0]['username'] }}</a>
+      {% for i in range((seat_order | length - 1) // 2) %}
+        <div class="seat-line">
+          <a href="" class="seat">{{ seat_order[(i+1)*2-1]['username'] }}</a>
+          <div class="table-margin"></div>
+          <a href="" class="seat">{{ seat_order[(i+1)*2]['username'] }}</a>
+        </div>
+      {% endfor %}
+      {% if seat_order | length % 2 == 0 %}
+        <a href="" class="seat">{{ seat_order[-1]['username'] }}</a>
       {% endif %}
+    {% elif shape_check == 0 %}
+    {% endif %}
   </div>
   <form action="{{ url_for('room.delete_room', id=id) }}" method="post">
     <input type="submit" value="終了">

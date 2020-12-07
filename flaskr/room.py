@@ -123,7 +123,14 @@ def category(id):
 @bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
 def result(id):
-    return render_template('room/result.html', id=id)
+  db = get_db()
+  seat_order = db.execute(
+    "SELECT user_id, username"
+    " FROM participant JOIN user ON user_id = id"
+    " WHERE room_id = ?",
+    (id,)
+  ).fetchall()
+  return render_template('room/result.html', id=id, seat_order=seat_order, shape_check=1)
 
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
