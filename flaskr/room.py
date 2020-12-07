@@ -193,6 +193,9 @@ def alcohol_divide_list(participants_list):
   return divide_list
 
 def alcohol_seat_change(participants_list):
+  divide_list = alcohol_divide_list(participants_list)
+  id_order_list = smoke_or_alcohol_shuffle_list(divide_list)
+  seat_result = smoke_or_alcohol_change_object_list(id_order_list, participants_list)
 
   return seat_result
 #--------------------------------------------------
@@ -323,7 +326,7 @@ def category(id):
       print("--------------------------------------------------")
       # print(hobby_seat_change(participants))
       # print(smoke_seat_change(participants))
-      print(alcohol_divide_list(participants))
+      print(alcohol_seat_change(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
