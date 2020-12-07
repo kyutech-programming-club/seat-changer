@@ -116,24 +116,17 @@ def smoke_create_user_list(participants_list):
 
   return smoke_list
 
-def smoke_divide_list(smoke_list):
-  smoker = []
-  non_smoker = []
-  hate_smoke = []
+def smoke_divide_list(participants_list):
+  smoke_list = smoke_create_user_list(participants_list)
+  divide_list = [[] for i in range(3)]
 
   for smoke in smoke_list:
     if smoke['degree'] == "吸う":
-      smoker.append(smoke['user_id'])
+      divide_list[0].append(smoke['user_id'])
     elif smoke['degree'] == "吸わない":
-      non_smoker.append(smoke['user_id'])
+      divide_list[1].append(smoke['user_id'])
     elif smoke['degree'] == "無理":
-      hate_smoke.append(smoke['user_id'])
-
-  divide_list = []
-
-  divide_list.append(smoker)
-  divide_list.append(non_smoker)
-  divide_list.append(hate_smoke)
+      divide_list[2].append(smoke['user_id'])
 
   return divide_list
 
