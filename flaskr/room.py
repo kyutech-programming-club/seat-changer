@@ -99,7 +99,6 @@ def hobby_seat_change(participants_list):
 
   return seat_result[0]
 
-#--------------------------------------------------
 def smoke_create_user_list(participants_list):
   db = get_db()
 
@@ -164,6 +163,43 @@ def smoke_seat_change(participants_list):
   divide_list = smoke_divide_list(smoke_create_user_list(participants_list))
   id_order_list = smoke_shuffle_list(divide_list)
   seat_result = smoke_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+
+#--------------------------------------------------
+def alcohol_create_user_list(participants_list):
+  db = get_db()
+  alcohol_list = []
+  
+  for participant in participants_list:
+    alcohol = db.execute(
+      'SELECT user_id, degree'
+      ' FROM alcohol'
+      ' WHERE user_id = ?',
+      (participant['user_id'],)
+    ).fetchone()
+
+    alcohol_list.append(alcohol)
+
+  return alcohol_list
+
+def alcohol_divide_list(participants_list):
+  alcohol_list = alcohol_create_user_list(participants_list)
+  divide_list = [[] for i in range(4)]
+
+  for alcohol in alcohol_list:
+    if alcohol['degree'] == "たくさん飲む":
+      divide_list[0].append(alcohol['user_id'])
+    elif alcohol['degree'] == "普通":
+      divide_list[1].append(alcohol['user_id'])
+    elif alcohol['degree'] == "あまり飲まない":
+      divide_list[2].append(alcohol['user_id'])
+    elif alcohol['degree'] == "全く飲まない":
+      divide_list[3].append(alcohol['user_id'])
+
+  return divide_list
+
+def alcohol_seat_change(participants_list):
 
   return seat_result
 #--------------------------------------------------
@@ -293,7 +329,8 @@ def category(id):
 
       print("--------------------------------------------------")
       # print(hobby_seat_change(participants))
-      print(smoke_seat_change(participants))
+      # print(smoke_seat_change(participants))
+      print(alcohol_divide_list(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
