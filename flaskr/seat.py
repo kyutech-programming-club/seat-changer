@@ -93,7 +93,7 @@ def hobby_seat_change(participants_list):
 
   return list(seat_result[0])
 
-def smoke_or_alcohol_shuffle_list(divide_list):
+def common_shuffle_list(divide_list):
   order_list = []
 
   for one_list in divide_list:
@@ -104,7 +104,7 @@ def smoke_or_alcohol_shuffle_list(divide_list):
 
   return order_list
 
-def smoke_or_alcohol_change_object_list(id_list, participants_list):
+def common_change_object_list(id_list, participants_list):
   object_list = []
 
   for list_id in id_list:
@@ -148,8 +148,8 @@ def smoke_divide_list(participants_list):
 
 def smoke_seat_change(participants_list):
   divide_list = smoke_divide_list(participants_list)
-  id_order_list = smoke_or_alcohol_shuffle_list(divide_list)
-  seat_result = smoke_or_alcohol_change_object_list(id_order_list, participants_list)
+  id_order_list = common_shuffle_list(divide_list)
+  seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result
 
@@ -187,8 +187,46 @@ def alcohol_divide_list(participants_list):
 
 def alcohol_seat_change(participants_list):
   divide_list = alcohol_divide_list(participants_list)
-  id_order_list = smoke_or_alcohol_shuffle_list(divide_list)
-  seat_result = smoke_or_alcohol_change_object_list(id_order_list, participants_list)
+  id_order_list = common_shuffle_list(divide_list)
+  seat_result = common_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+
+def by_gender_create_user_list(participants_list):
+  db = get_db()
+
+  by_gender_list = []
+
+  for participant in participants_list:
+    by_gender = db.execute(
+      'SELECT id, gender'
+      ' FROM user'
+      ' WHERE id = ?',
+      (participant['user_id'],)
+    ).fetchone()
+
+    by_gender_list.append(by_gender)
+
+  return by_gender_list
+
+def by_gender_divide_list(participants_list):
+  by_gender_list = by_gender_create_user_list(participants_list)
+  divide_list = [[] for i in range(2)]
+
+  for by_gender in by_gender_list:
+    if by_gender['gender'] == "男":
+      divide_list[0].append(by_gender['id'])
+    elif by_gender['gender'] == "女":
+      divide_list[1].append(by_gender['id'])
+    elif by_gender['gender'] == "その他":
+      divide_list[random.randint(0, 1)].append(by_gender['id'])
+
+  return divide_list
+
+def by_gender_seat_change(participants_list):
+  divide_list = by_gender_divide_list(participants_list)
+  id_order_list = common_shuffle_list(divide_list)
+  seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result
 

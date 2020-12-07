@@ -136,6 +136,7 @@ def category(id):
       print(seat.hobby_seat_change(participants))
       print(seat.smoke_seat_change(participants))
       print(seat.alcohol_seat_change(participants))
+      print(seat.by_gender_seat_change(participants))
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
