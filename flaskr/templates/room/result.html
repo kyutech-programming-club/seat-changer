@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block content %}
-{% set menbers = ['a', 'b', 'c', 'd', 'f', 'h', 'i'] %}
+{% set menbers = ['てすと', 'てすざわ', 'てすした', 'てすだ', 'てすやま', 'てすぎ', 'てすのうち', 'てす', 'てすがわ' ] %}
+
   <h1>席順を表示</h1>
   <div class="seats scroll">
     <!-- 誕生日席付きの場合 -->
@@ -13,7 +14,7 @@
       <!-- 奇数の時 -->
       {% if menbers | length % 2 == 1 %}
         {% for i in range(menbers | length // 2) %}
-          <div>
+          <div class="seat-line">
             <a href="" class="seat">{{ menbers[(i+1)*2-1] }}</a>
             <div class="table-margin"></div>
             <a href="" class="seat">{{ menbers[(i+1)*2] }}</a>
@@ -22,7 +23,7 @@
       <!-- 偶数の時 -->
       {% else %}
         {% for i in range(menbers | length // 2 - 1) %}
-          <div>
+          <div class="seat-line">
             <a href="" class="seat">{{ menbers[(i+1)*2-1] }}</a>
             <div class="table-margin"></div>
             <a href="" class="seat">{{ menbers[(i+1)*2] }}</a>

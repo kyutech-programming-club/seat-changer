@@ -35,6 +35,7 @@ a.btn--rounded {
     white-space: nowrap;
     color: #fff;
     background-color: #8CBEB2;
+    border-radius: 2rem;
 }
 
 .btn--rounded:active,
@@ -81,15 +82,15 @@ a.btn--square:active {
     box-sizing: border-box;
   } */
 
-  a.seat {
+a.seat {
     display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
+    width: 30%;
+    max-width: 7rem;
     background-color: #eb6100;
-    color: #fff;
-
-  }
+    color: black;
+    border-radius: 1rem;
+    border: dashed 1px #67c5ff;
+}
 
   a.seat:active {
     color: black;
@@ -97,9 +98,7 @@ a.btn--square:active {
 }
 
 .table-margin {
-    /* position: absolute; */
-    width: 50%;
-    /*親要素いっぱい広げる*/
+    width: 20%;
     padding: 10px 15px;
     /*ボックスを大きくする*/
     /* margin: 0.25rem; */
@@ -108,6 +107,8 @@ a.btn--square:active {
     display: inline-block;
 }
 
+.seat-line {
+}
 
 .scroll {
     overflow: scroll;
@@ -123,8 +124,10 @@ a.btn--square:active {
 }
 
 .seats {
-    max-height: 28rem;
-    text-align: center;   
+    max-height: 80%;
+    position: relative;
+    text-align: center;
+
 }
 
 hr {
@@ -168,6 +171,7 @@ header .action {
 
 .content {
     padding: 1rem 1rem 1rem 1rem;
+    height: 100%;
 }
 
 .content>header {
