@@ -130,7 +130,7 @@ def result(id):
     " WHERE room_id = ?",
     (id,)
   ).fetchall()
-  return render_template('room/result.html', id=id, seat_order=seat_order, shape_check=1)
+  return render_template('room/result.html', id=id, seat_order=seat_order, shape_check=0)
 
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
