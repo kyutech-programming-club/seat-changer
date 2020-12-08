@@ -72,22 +72,28 @@ a.seat {
     display: inline-block;
     width: 30%;
     max-width: 7rem;
-    background-color: #eb6100;
-    color: black;
+    background-color: #F3B562;
+    color:  #5C4B51;
     border-radius: 1rem;
-    border: dashed 1px #67c5ff;
 }
 
-  a.seat:active {
-    color: black;
+a.seat:active {
+    color:  #5C4B51;
     background: #f56500;
 }
 
+a.seat-dummy {
+    background-color: #fff;
+    color: #fff;
+    border: #fff;
+}
+
 .table-margin {
+    display: inline-block;
     width: 20%;
     padding: 10px 15px;
-    border: 2px solid #ddd;
-    display: inline-block;
+    /* 席の間隔表示用 */
+    /* border: 2px solid #ddd; */
 }
 
 .scroll {
