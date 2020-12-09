@@ -124,22 +124,15 @@ def category(id):
       hobby_check = request.form.get('hobby')
       gender_check = request.form.get('gender')
       shape_check = request.form.get('shape')
+      seat_order = seat.seat_change(participants, smoke_alcohol_check, hobby_check, gender_check)
 
       print("--------------------------------------------------")
       print(smoke_alcohol_check)
       print(hobby_check)
       print(gender_check)
       print(shape_check)
+      print(seat_order)
       print("--------------------------------------------------")
-
-      # print("--------------------------------------------------")
-      # print(seat.hobby_seat_change(participants))
-      # print(seat.smoke_seat_change(participants))
-      # print(seat.alcohol_seat_change(participants))
-      # print(seat.by_gender_seat_change(participants))
-      # print(seat.smoke_and_alcohol_seat_change(participants))
-      # print(seat.alternate_gender_seat_change(participants))
-      # print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
     
