@@ -135,6 +135,13 @@ def smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check):
   order_list = []
 
   if hobby_check == 1:
+    divide_list = common_change_object_divide_list(divide_list)
+
+    for i, one_list in enumerate(divide_list):
+      one_list = hobby_seat_change(one_list)
+      divide_list[i] = one_list
+
+    seat_result = common_link_list(divide_list)
 
   else:
     id_order_list = common_shuffle_list(divide_list)
@@ -282,6 +289,7 @@ def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, 
       one_list = smoke_and_alcohol_seat_change(one_list)
       divide_list[i] = one_list
 
+    divide_list[1].reverse()
     seat_result = common_link_list(divide_list)
 
   elif smoke_alcohol_check[0] == 1:
@@ -291,6 +299,7 @@ def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, 
       one_list = smoke_seat_change(one_list)
       divide_list[i] = one_list
 
+    divide_list[1].reverse()
     seat_result = common_link_list(divide_list)
 
   elif smoke_alcohol_check[1] == 1:
@@ -300,6 +309,7 @@ def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, 
       one_list = alcohol_seat_change(one_list)
       divide_list[i] = one_list
 
+    divide_list[1].reverse()
     seat_result = common_link_list(divide_list)
 
   else:
