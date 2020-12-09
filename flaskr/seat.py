@@ -233,6 +233,86 @@ def by_gender_seat_change(participants_list):
 
   return seat_result
 
+def min_list(list_1, list_2):
+  if len(list_1) < len(list_2):
+    return list_1
+  else:
+    return list_2
+
+def alternate_gender_divide_list(participants_list):
+  gender_list = gender_create_user_list(participants_list)
+  divide_list = [[] for i in range(2)]
+  other_list = []
+
+  for gender in gender_list:
+    if gender['gender'] == "男":
+      divide_list[0].append(gender['id'])
+    elif gender['gender'] == "女":
+      divide_list[1].append(gender['id'])
+    elif gender['gender'] == "その他":
+      other_list.append(gender['id'])
+
+  for other in other_list:
+    min_list(divide_list[0], divide_list[1]).append(other)
+
+  return divide_list
+
+def alternate_gender_shuffle_list(participants_list):
+  divide_list = alternate_gender_divide_list(participants_list)
+
+  for one_list in divide_list:
+    random.shuffle(one_list)
+
+  if len(divide_list[0]) < len(divide_list[1]):
+    divide_list[0], divide_list[1] = divide_list[1], divide_list[0]
+
+  return divide_list
+
+def alternate_gender_place_random(divide_long_list, order_list, finish_num):
+  for i in range(1, finish_num):
+    order_list.insert(random.randint(0, len(order_list)), divide_long_list[i * (-1)])
+  return order_list
+
+def alternate_gender_order_list(divide_list):
+  order_list = []
+  order_list.append(divide_list[0][0])
+  order_list.append(divide_list[1][0])
+
+  for i in range((len(divide_list[1]) - 1) // 2):
+    for j in range(2):
+      for k in range(-1, 0):
+        order_list.append(divide_list[j][(i + 1) * 2 + k])
+  print(order_list)
+
+  if len(divide_list[1]) % 2 == 0:
+    if len(divide_list[0]) == len(divide_list[1]):
+      for j in range(2):
+        order_list.append(divide_list[j][-1])
+    else:
+      for j in range(1, 3):
+        order_list.append(divide_list[0][(i + 1) * 2 + j])
+
+      order_list.append(divide_list[1][-1])
+
+      if len(divide_list[0]) != len(divide_list[1]) + 1:
+        finish_num = len(divide_list[0]) - len(divide_list[1]) - 1
+        alternate_gender_place_random(divide_list[0], order_list, finish_num)
+
+  elif len(divide_list[0]) != len(divide_list[1]):
+    finish_num = len(divide_list[0]) - len(divide_list[1])
+    alternate_gender_place_random(divide_list[0], order_list, finish_num)
+
+  return order_list
+
+def alternate_gender_seat_change(participants_list):
+  divide_list = alternate_gender_shuffle_list(participants_list)
+  print(divide_list)
+  id_order_list = alternate_gender_order_list(divide_list)
+  print(id_order_list)
+  seat_result = common_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+
 def smoke_and_alcohol_create_user_list(participants_list):
   db = get_db()
 
@@ -273,4 +353,3 @@ def smoke_and_alcohol_seat_change(participants_list):
   seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result
-
