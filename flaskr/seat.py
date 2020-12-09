@@ -115,6 +115,22 @@ def common_change_object_list(id_list, participants_list):
 
   return object_list
 
+def common_change_object_divide_list(divide_list, participants_list):
+  for i, one_list in enumerate(divide_list):
+    object_list = common_change_object_list(one_list, participants_list)
+    divide_list[i] = object_list
+
+  return divide_list
+
+def common_link_list(divide_list):
+  order_list = []
+
+  for one_list in divide_list:
+    for one_id in one_list:
+      order_list.append(one_id)
+
+  return order_list
+
 def smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check):
   order_list = []
 
