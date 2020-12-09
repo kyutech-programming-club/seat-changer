@@ -362,3 +362,30 @@ def smoke_and_alcohol_seat_change(participants_list):
   seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result
+
+def case_smoke_and_alcohol(smoke_check, alcohol_check, hobby_check, participants_list):
+  if smoke_check == 1 and alcohol_check == 1:
+
+  elif smoke_check == 1:
+
+  elif alcohol_check == 1:
+
+  else:
+
+  return seat_result
+
+def case_hobby(hobby_check, participants_list):
+  if hobby_check == 1:
+
+  else:
+
+  return seat_result
+
+def seat_change(participants_list, smoke_check, alcohol_check, hobby_check, gender_check):
+  if gender_check == 1:
+
+  elif gender_check == 2:
+
+  else:
+
+  return seat_result
