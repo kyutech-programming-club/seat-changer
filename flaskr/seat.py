@@ -260,8 +260,9 @@ def alternate_gender_divide_list(participants_list):
 def alternate_gender_shuffle_list(participants_list):
   divide_list = alternate_gender_divide_list(participants_list)
 
-  for one_list in divide_list:
+  for i, one_list in enumerate(divide_list):
     random.shuffle(one_list)
+    divide_list[i] = one_list
 
   if len(divide_list[0]) < len(divide_list[1]):
     divide_list[0], divide_list[1] = divide_list[1], divide_list[0]
@@ -273,42 +274,50 @@ def alternate_gender_place_random(divide_long_list, order_list, finish_num):
     order_list.insert(random.randint(0, len(order_list)), divide_long_list[i * (-1)])
   return order_list
 
-def alternate_gender_order_list(divide_list):
-  order_list = []
-  order_list.append(divide_list[0][0])
-  order_list.append(divide_list[1][0])
-
-  for i in range((len(divide_list[1]) - 1) // 2):
-    for j in range(2):
-      for k in range(-1, 0):
-        order_list.append(divide_list[j][(i + 1) * 2 + k])
-  print(order_list)
-
+def alternate_gender_adjust_list(divide_list, order_list, first_loop_num):
   if len(divide_list[1]) % 2 == 0:
     if len(divide_list[0]) == len(divide_list[1]):
       for j in range(2):
         order_list.append(divide_list[j][-1])
     else:
       for j in range(1, 3):
-        order_list.append(divide_list[0][(i + 1) * 2 + j])
+        order_list.append(divide_list[0][first_loop_num * 2 + j])
 
       order_list.append(divide_list[1][-1])
 
       if len(divide_list[0]) != len(divide_list[1]) + 1:
-        finish_num = len(divide_list[0]) - len(divide_list[1]) - 1
+        finish_num = len(divide_list[0]) - len(divide_list[1])
         alternate_gender_place_random(divide_list[0], order_list, finish_num)
 
   elif len(divide_list[0]) != len(divide_list[1]):
-    finish_num = len(divide_list[0]) - len(divide_list[1])
+    finish_num = len(divide_list[0]) - len(divide_list[1]) + 1
     alternate_gender_place_random(divide_list[0], order_list, finish_num)
+
+  return order_list
+
+def alternate_gender_order_list(divide_list):
+  order_list = []
+  order_list.append(divide_list[0][0])
+  order_list.append(divide_list[1][0])
+  first_loop_num = (len(divide_list[1]) - 1) // 2
+
+  for i in range(first_loop_num):
+    for j in range(2):
+      for k in range(-1, 1):
+        order_list.append(divide_list[j][(i + 1) * 2 + k])
+
+  order_list = alternate_gender_adjust_list(divide_list, order_list, first_loop_num)
 
   return order_list
 
 def alternate_gender_seat_change(participants_list):
   divide_list = alternate_gender_shuffle_list(participants_list)
-  print(divide_list)
-  id_order_list = alternate_gender_order_list(divide_list)
-  print(id_order_list)
+
+  if len(divide_list[1]) == 0:
+    id_order_list = common_shuffle_list(divide_list)
+  else:
+    id_order_list = alternate_gender_order_list(divide_list)
+
   seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result
