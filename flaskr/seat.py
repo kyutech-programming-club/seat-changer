@@ -320,13 +320,20 @@ def alternate_gender_divide_list(participants_list):
 
   return divide_list
 
-# ここで条件分岐
-def alternate_gender_shuffle_list(participants_list):
+def alternate_gender_shuffle_list(participants_list, smoke_alcohol_check, hobby_check):
   divide_list = alternate_gender_divide_list(participants_list)
 
-  for i, one_list in enumerate(divide_list):
-    random.shuffle(one_list)
-    divide_list[i] = one_list
+  if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+
+  elif smoke_alcohol_check[0] == 1:
+
+  elif smoke_alcohol_check[1] == 1:
+
+  else:
+    for i, one_list in enumerate(divide_list):
+      random.shuffle(one_list)
+      one_list = common_change_object_list(one_list)
+      divide_list[i] = one_list
 
   if len(divide_list[0]) < len(divide_list[1]):
     divide_list[0], divide_list[1] = divide_list[1], divide_list[0]
@@ -374,24 +381,34 @@ def alternate_gender_order_list(divide_list):
 
   return order_list
 
-def alternate_gender_seat_change(participants_list):
+def alternate_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check):
   divide_list = alternate_gender_shuffle_list(participants_list)
 
   if len(divide_list[1]) == 0:
     id_order_list = common_shuffle_list(divide_list)
+    seat_result = common_change_object_list(id_order_list, participants_list)
   else:
-    id_order_list = alternate_gender_order_list(divide_list)
-
-  seat_result = common_change_object_list(id_order_list, participants_list)
+    seat_result = alternate_gender_order_list(divide_list)
 
   return seat_result
 
 def seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_check):
   if gender_check == 1:
     seat_result = by_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check)
-
   elif gender_check == 2:
-
+    seat_result = alternate_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check)
   else:
+    if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+      smoke_and_alcohol_seat_change(participants_list, hobby_check)
+    elif smoke_alcohol_check[0] == 1:
+      smoke_seat_change(participants_list, hobby_check)
+    elif smoke_alcohol_check[1] == 1:
+      alcohol_seat_change(participants_list, hobby_check)
+    else:
+      if hobby_check == 1:
+        seat_result = hobby_seat_change(participants_list)
+      else:
+        random.shuffle(participants_list)
+        seat_result = participants_list
 
   return seat_result
