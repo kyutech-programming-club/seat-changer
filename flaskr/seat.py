@@ -192,7 +192,6 @@ def alcohol_seat_change(participants_list):
 
   return seat_result
 
-# gender_listに、性別の情報をぶちこむ
 def gender_create_user_list(participants_list):
   db = get_db()
 
@@ -310,6 +309,47 @@ def alternate_gender_seat_change(participants_list):
   print(divide_list)
   id_order_list = alternate_gender_order_list(divide_list)
   print(id_order_list)
+  seat_result = common_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+
+def smoke_and_alcohol_create_user_list(participants_list):
+  db = get_db()
+
+  smoke_list = smoke_create_user_list(participants_list)
+  alcohol_list = alcohol_create_user_list(participants_list)
+
+  smoke_and_alcohol_user_list = zip(smoke_list, alcohol_list)
+
+  return smoke_and_alcohol_user_list
+
+def smoke_and_alcohol_divide_list(participants_list):
+  user_list = smoke_and_alcohol_create_user_list(participants_list)
+  divide_list = [[] for i in range(6)]
+  smoke_degree = ["吸う", "吸わない", "無理"]
+  alcohol_degree = ["たくさん飲む", "普通", "あまり飲まない", "全く飲まない"]
+
+  for user in user_list:
+    if user[1]['degree'] == alcohol_degree[2] or user[1]['degree'] == alcohol_degree[3]:
+      if user[0]['degree'] == smoke_degree[2]:
+        divide_list[0].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[1]:
+        divide_list[1].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[0]:
+        divide_list[5].append(user[0]['user_id'])
+    elif user[1]['degree'] == alcohol_degree[0] or user[1]['degree'] == alcohol_degree[1]:
+      if user[0]['degree'] == smoke_degree[2]:
+        divide_list[2].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[1]:
+        divide_list[3].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[0]:
+        divide_list[4].append(user[0]['user_id'])
+
+  return divide_list
+
+def smoke_and_alcohol_seat_change(participants_list):
+  divide_list = smoke_and_alcohol_divide_list(participants_list)
+  id_order_list = common_shuffle_list(divide_list)
   seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result

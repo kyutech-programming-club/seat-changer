@@ -137,6 +137,7 @@ def category(id):
       # print(seat.smoke_seat_change(participants))
       # print(seat.alcohol_seat_change(participants))
       # print(seat.by_gender_seat_change(participants))
+      # print(seat.smoke_and_alcohol_seat_change(participants))
       print(seat.alternate_gender_seat_change(participants))
       print("--------------------------------------------------")
 
