@@ -258,10 +258,20 @@ def alternate_gender_divide_list(participants_list):
 
   return divide_list
 
-def alternate_gender_place_random(divide_list, order_list):
-  finish_num = len(divide_list[0]) - len(divide_list[1]) + 1
-  for i in range(1:finish_num):
-    # ランダムに追加
+def alternate_gender_shuffle_list(participants_list):
+  divide_list = alternate_gender_divide_list(participants_list)
+
+  for one_list in divide_list:
+    random.shuffle(one_list)
+
+  if len(divide_list[0]) < len(divide_list[1]):
+    divide_list[0], divide_list[1] = divide_list[1], divide_list[0]
+
+  return divide_list
+
+def alternate_gender_place_random(divide_long_list, order_list, finish_num):
+  for i in range(1, finish_num):
+    order_list.insert(random.randint(0, len(order_list)), divide_long_list[i * (-1)])
   return order_list
 
 def alternate_gender_order_list(divide_list):
@@ -269,35 +279,37 @@ def alternate_gender_order_list(divide_list):
   order_list.append(divide_list[0][0])
   order_list.append(divide_list[1][0])
 
-  for i in (len(divide_list[1]) - 1) // 2:
+  for i in range((len(divide_list[1]) - 1) // 2):
     for j in range(2):
-      for k in range(1:2):
-        order_list.append(divide_list[j][j + k])
-  
+      for k in range(-1, 0):
+        order_list.append(divide_list[j][(i + 1) * 2 + k])
+  print(order_list)
+
   if len(divide_list[1]) % 2 == 0:
     if len(divide_list[0]) == len(divide_list[1]):
-      order_list.append(divide_list[0][j + 1])
-      order_list.append(divide_list[1][j + 1])
+      for j in range(2):
+        order_list.append(divide_list[j][-1])
     else:
-      order_list.append(divide_list[0][j + 1])
-      order_list.append(divide_list[0][j + 2])
-      order_list.append(divide_list[1][j + 1])
+      for j in range(1, 3):
+        order_list.append(divide_list[0][(i + 1) * 2 + j])
+
+      order_list.append(divide_list[1][-1])
 
       if len(divide_list[0]) != len(divide_list[1]) + 1:
-        # 一個上の関数
-  else:
-    # 一個上の関数
+        finish_num = len(divide_list[0]) - len(divide_list[1]) - 1
+        alternate_gender_place_random(divide_list[0], order_list, finish_num)
 
-def alternate_gender_shuffle_list(divide_list):
-  for one_list in divide_list:
-    random.shuffle(one_list)
+  elif len(divide_list[0]) != len(divide_list[1]):
+    finish_num = len(divide_list[0]) - len(divide_list[1])
+    alternate_gender_place_random(divide_list[0], order_list, finish_num)
 
-  if len(divide_list[0]) < len(divide_list[1]):
-    divide_list[0], divide_list[1] = divide_list[1], divide_list[0]
-  # 一個上の関数
+  return order_list
 
-  return id_order_list
-
-def alternate_gender_seat_cahnge():
+def alternate_gender_seat_change(participants_list):
+  divide_list = alternate_gender_shuffle_list(participants_list)
+  print(divide_list)
+  id_order_list = alternate_gender_order_list(divide_list)
+  print(id_order_list)
+  seat_result = common_change_object_list(id_order_list, participants_list)
 
   return seat_result
