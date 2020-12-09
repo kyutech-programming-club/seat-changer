@@ -276,12 +276,31 @@ def gender_create_user_list(participants_list):
 
 def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, hobby_check):
   if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+    divide_list = common_change_object_divide_list(divide_list, participant_list)
+
+    for i, one_list in enumerate(divide_list):
+      one_list = smoke_and_alcohol_seat_change(one_list)
+      divide_list[i] = one_list
+
+    seat_result = common_link_list(divide_list)
 
   elif smoke_alcohol_check[0] == 1:
-  # smoke
+    divide_list = common_change_object_divide_list(divide_list, participant_list)
+
+    for i, one_list in enumerate(divide_list):
+      one_list = smoke_seat_change(one_list)
+      divide_list[i] = one_list
+
+    seat_result = common_link_list(divide_list)
 
   elif smoke_alcohol_check[1] == 1:
-  # alcohol
+    divide_list = common_change_object_divide_list(divide_list, participant_list)
+
+    for i, one_list in enumerate(divide_list):
+      one_list = alcohol_seat_change(one_list)
+      divide_list[i] = one_list
+
+    seat_result = common_link_list(divide_list)
 
   else:
     id_order_list = common_shuffle_list(divide_list)
@@ -338,12 +357,22 @@ def alternate_gender_divide_list(participants_list):
 
 def alternate_gender_shuffle_list(participants_list, smoke_alcohol_check, hobby_check):
   divide_list = alternate_gender_divide_list(participants_list)
+  divide_list = common_change_object_list(divide_list, participants_list)
 
   if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+    for i, one_list in enumerate(divide_list):
+      one_list = smoke_and_alcohol_seat_change(one_list)
+      divide_list[i] = one_list
 
   elif smoke_alcohol_check[0] == 1:
+    for i, one_list in enumerate(divide_list):
+      one_list = smoke_seat_change(one_list)
+      divide_list[i] = one_list
 
   elif smoke_alcohol_check[1] == 1:
+    for i, one_list in enumerate(divide_list):
+      one_list = alcohol_seat_change(one_list)
+      divide_list[i] = one_list
 
   else:
     for i, one_list in enumerate(divide_list):
