@@ -115,6 +115,17 @@ def common_change_object_list(id_list, participants_list):
 
   return object_list
 
+def smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check):
+  order_list = []
+
+  if hobby_check == 1:
+
+  else:
+    id_order_list = common_shuffle_list(divide_list)
+    seat_result = common_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+
 def smoke_create_user_list(participants_list):
   db = get_db()
 
@@ -146,10 +157,9 @@ def smoke_divide_list(participants_list):
 
   return divide_list
 
-def smoke_seat_change(participants_list):
+def smoke_seat_change(participants_list, hobby_check):
   divide_list = smoke_divide_list(participants_list)
-  id_order_list = common_shuffle_list(divide_list)
-  seat_result = common_change_object_list(id_order_list, participants_list)
+  seat_result = smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check)
 
   return seat_result
 
@@ -187,8 +197,47 @@ def alcohol_divide_list(participants_list):
 
 def alcohol_seat_change(participants_list):
   divide_list = alcohol_divide_list(participants_list)
-  id_order_list = common_shuffle_list(divide_list)
-  seat_result = common_change_object_list(id_order_list, participants_list)
+  seat_result = smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check)
+
+  return seat_result
+
+def smoke_and_alcohol_create_user_list(participants_list):
+  db = get_db()
+
+  smoke_list = smoke_create_user_list(participants_list)
+  alcohol_list = alcohol_create_user_list(participants_list)
+
+  smoke_and_alcohol_user_list = zip(smoke_list, alcohol_list)
+
+  return smoke_and_alcohol_user_list
+
+def smoke_and_alcohol_divide_list(participants_list):
+  user_list = smoke_and_alcohol_create_user_list(participants_list)
+  divide_list = [[] for i in range(6)]
+  smoke_degree = ["吸う", "吸わない", "無理"]
+  alcohol_degree = ["たくさん飲む", "普通", "あまり飲まない", "全く飲まない"]
+
+  for user in user_list:
+    if user[1]['degree'] == alcohol_degree[2] or user[1]['degree'] == alcohol_degree[3]:
+      if user[0]['degree'] == smoke_degree[2]:
+        divide_list[0].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[1]:
+        divide_list[1].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[0]:
+        divide_list[5].append(user[0]['user_id'])
+    elif user[1]['degree'] == alcohol_degree[0] or user[1]['degree'] == alcohol_degree[1]:
+      if user[0]['degree'] == smoke_degree[2]:
+        divide_list[2].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[1]:
+        divide_list[3].append(user[0]['user_id'])
+      elif user[0]['degree'] == smoke_degree[0]:
+        divide_list[4].append(user[0]['user_id'])
+
+  return divide_list
+
+def smoke_and_alcohol_seat_change(participants_list):
+  divide_list = smoke_and_alcohol_divide_list(participants_list)
+  seat_result = smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check)
 
   return seat_result
 
@@ -209,6 +258,21 @@ def gender_create_user_list(participants_list):
 
   return gender_list
 
+def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, hobby_check):
+  if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+
+  elif smoke_alcohol_check[0] == 1:
+  # smoke
+
+  elif smoke_alcohol_check[1] == 1:
+  # alcohol
+
+  else:
+    id_order_list = common_shuffle_list(divide_list)
+    seat_result = common_change_object_list(id_order_list, participants_list)
+
+  return seat_result
+
 def by_gender_divide_list(participants_list):
   by_gender_list = gender_create_user_list(participants_list)
   divide_list = [[] for i in range(2)]
@@ -226,10 +290,9 @@ def by_gender_divide_list(participants_list):
 
   return divide_list
 
-def by_gender_seat_change(participants_list):
+def by_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check):
   divide_list = by_gender_divide_list(participants_list)
-  id_order_list = common_shuffle_list(divide_list)
-  seat_result = common_change_object_list(id_order_list, participants_list)
+  by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, hobby_check)
 
   return seat_result
 
@@ -257,6 +320,7 @@ def alternate_gender_divide_list(participants_list):
 
   return divide_list
 
+# ここで条件分岐
 def alternate_gender_shuffle_list(participants_list):
   divide_list = alternate_gender_divide_list(participants_list)
 
@@ -322,67 +386,9 @@ def alternate_gender_seat_change(participants_list):
 
   return seat_result
 
-def smoke_and_alcohol_create_user_list(participants_list):
-  db = get_db()
-
-  smoke_list = smoke_create_user_list(participants_list)
-  alcohol_list = alcohol_create_user_list(participants_list)
-
-  smoke_and_alcohol_user_list = zip(smoke_list, alcohol_list)
-
-  return smoke_and_alcohol_user_list
-
-def smoke_and_alcohol_divide_list(participants_list):
-  user_list = smoke_and_alcohol_create_user_list(participants_list)
-  divide_list = [[] for i in range(6)]
-  smoke_degree = ["吸う", "吸わない", "無理"]
-  alcohol_degree = ["たくさん飲む", "普通", "あまり飲まない", "全く飲まない"]
-
-  for user in user_list:
-    if user[1]['degree'] == alcohol_degree[2] or user[1]['degree'] == alcohol_degree[3]:
-      if user[0]['degree'] == smoke_degree[2]:
-        divide_list[0].append(user[0]['user_id'])
-      elif user[0]['degree'] == smoke_degree[1]:
-        divide_list[1].append(user[0]['user_id'])
-      elif user[0]['degree'] == smoke_degree[0]:
-        divide_list[5].append(user[0]['user_id'])
-    elif user[1]['degree'] == alcohol_degree[0] or user[1]['degree'] == alcohol_degree[1]:
-      if user[0]['degree'] == smoke_degree[2]:
-        divide_list[2].append(user[0]['user_id'])
-      elif user[0]['degree'] == smoke_degree[1]:
-        divide_list[3].append(user[0]['user_id'])
-      elif user[0]['degree'] == smoke_degree[0]:
-        divide_list[4].append(user[0]['user_id'])
-
-  return divide_list
-
-def smoke_and_alcohol_seat_change(participants_list):
-  divide_list = smoke_and_alcohol_divide_list(participants_list)
-  id_order_list = common_shuffle_list(divide_list)
-  seat_result = common_change_object_list(id_order_list, participants_list)
-
-  return seat_result
-
-def case_smoke_and_alcohol(smoke_check, alcohol_check, hobby_check, participants_list):
-  if smoke_check == 1 and alcohol_check == 1:
-
-  elif smoke_check == 1:
-
-  elif alcohol_check == 1:
-
-  else:
-
-  return seat_result
-
-def case_hobby(hobby_check, participants_list):
-  if hobby_check == 1:
-
-  else:
-
-  return seat_result
-
-def seat_change(participants_list, smoke_check, alcohol_check, hobby_check, gender_check):
+def seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_check):
   if gender_check == 1:
+    seat_result = by_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check)
 
   elif gender_check == 2:
 
