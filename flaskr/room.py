@@ -156,7 +156,7 @@ def result(id):
   smoke_alcohol.append(seat_check['alcohol'])
   hobby = seat_check['hobby']
   gender = seat_check['gender']
-  shape = seat_check['shape']
+  shape_check = seat_check['shape']
 
   seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
   print(seat_order)
