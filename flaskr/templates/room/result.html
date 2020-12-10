@@ -7,7 +7,6 @@
 {% block content %}
   <h1>席順を表示</h1>
   <div class="seats scroll">
-  <!-- 対面型の場合 -->
   {% if shape_check == 0 %}
     {% for i in range(seat_order | length // 2) %}
       <div class="seat-line">
@@ -21,7 +20,6 @@
         <a class="table-margin">margin</a>
       <a href="" class="seat seat-dummy"></a>
     {% endif %}
-  <!-- 誕生日席付きの場合 -->
   {% elif shape_check == 1 %}
     <a href="{{ url_for('auth.userpage', id=seat_order[0]['user_id']) }}" class="seat">{{ seat_order[0]['username'] }}</a>
     {% for i in range((seat_order | length - 1) // 2) %}
@@ -34,14 +32,11 @@
     {% if seat_order | length % 2 == 0 %}
       <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">{{ seat_order[-1]['username'] }}</a>
     {% endif %}
-  <!-- 円形テーブルの場合 -->
-  {% elif shape_check == 2 %}
-      
-  <!-- エラー用 -->
-  {% else %}
-      {% print("ERROR") %}
   {% endif %}
   </div>
+  <form action="{{ url_for('room.delete_seat', id=id) }}" method="post">
+    <input type="submit" value="もう一度席替えをする">
+  </form>
   <form action="{{ url_for('room.delete_room', id=id) }}" method="post">
     <input type="submit" value="終了">
   </form>
