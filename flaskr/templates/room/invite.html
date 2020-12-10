@@ -13,15 +13,15 @@
   {% for participant in participants %}
   {% if participant['user_id'] != g.user['id'] %}
     <div>
-      <label for="{{ participant['user_id'] }}">{{ participant['username'] }}</label>
       <input type="checkbox" id="{{ participant['user_id'] }}" name="check" value="{{ participant['user_id'] }}" checked>
+      <label for="{{ participant['user_id'] }}">{{ participant['username'] }}</label>
     </div>
   {% endif %}
   {% endfor %}
   {% for user in users %}
       <div>
-        <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
         <input type="checkbox" id="{{ user['guest_id'] }}" name="check" value="{{ user['guest_id'] }}">
+        <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
       </div>
   {% endfor %}
   </div>
