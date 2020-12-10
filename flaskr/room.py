@@ -118,16 +118,22 @@ def category(id):
     ).fetchall()
 
     if request.method == 'POST':
-      smoke_alcohol_check = []
-      smoke_alcohol_check.append(request.form.get('smoke'))
-      smoke_alcohol_check.append(request.form.get('alcohol'))
+      smoke_check = request.form.get('smoke')
+      alcohol_check = request.form.get('alcohol')
       hobby_check = request.form.get('hobby')
       gender_check = request.form.get('gender')
       shape_check = request.form.get('shape')
-      seat_order = seat.seat_change(participants, smoke_alcohol_check, hobby_check, gender_check)
+
+      db.execute(
+        'INSERT INTO seat (room_id, smoke, alcohol, hobby, gender, shape)'
+        ' VALUES (?, ?, ?, ?, ?, ?)',
+        (id, smoke_check, alcohol_check, hobby_check, gender_check, shape_check)
+      )
+      db.commit()
 
       print("--------------------------------------------------")
-      print(smoke_alcohol_check)
+      print(smoke_check)
+      print(alcohol_check)
       print(hobby_check)
       print(gender_check)
       print(shape_check)
@@ -141,7 +147,9 @@ def category(id):
 @bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
 def result(id):
-    return render_template('room/result.html', id=id)
+  seat_order = seat.seat_change(participants, smoke_alcohol_check, hobby_check, gender_check)
+
+  return render_template('room/result.html', id=id)
 
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
@@ -149,6 +157,12 @@ def delete_room(id):
   db = get_db()
   db.execute(
     'DELETE FROM participant'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+
+  db.execute(
+    'DELETE FROM seat'
     ' WHERE room_id = ?',
     (id,)
   )
