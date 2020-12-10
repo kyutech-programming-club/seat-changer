@@ -161,7 +161,7 @@ def result(id):
   seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
   print(seat_order)
 
-  return render_template('room/result.html', id=id, shape=shape, seat_order=seat_order)
+  return render_template('room/result.html', id=id, shape_check=shape_check, seat_order=seat_order)
 
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required

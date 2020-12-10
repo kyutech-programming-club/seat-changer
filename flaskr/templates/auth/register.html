@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Sign In{% endblock %}</h1>
+  <h1>{% block title %}Sign Up{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -35,12 +35,14 @@
         </select>
     </label></p>
     <h2>趣味</h2>
+    <div class="scroll">
     {% for hobby in hobbys %}
       <div>
         <label for="{{hobby['category']}}">{{hobby['category']}}</label>
         <input type="checkbox" id="{{hobby['category']}}" name="check" value="{{hobby['category']}}">
       </div>
     {% endfor %}
-    <input type="submit" value="Sign in">
+    </div>
+    <input type="submit" value="Sign Up">
   </form>
 {% endblock %}

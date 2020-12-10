@@ -24,7 +24,6 @@ a {
     text-decoration: none;
 }
 
-
 /* 青丸形ボタン */
 
 .btn--rounded,
@@ -35,6 +34,7 @@ a.btn--rounded {
     white-space: nowrap;
     color: #fff;
     background-color: #8CBEB2;
+    border-radius: 2rem;
 }
 
 .btn--rounded:active,
@@ -42,7 +42,6 @@ a.btn--rounded:active {
     color: #fff;
     background: #3dd4b1;
 }
-
 
 /* ホームに戻る用白立体ボタン */
 
@@ -69,6 +68,38 @@ a.btn--square:active {
     background: linear-gradient(to top, #fdfbfb 0%, #ebedee 100%);
 }
 
+a.seat {
+    display: inline-block;
+    width: 30%;
+    max-width: 7rem;
+    background-color: #F3B562;
+    color:  #5C4B51;
+    border-radius: 1rem;
+}
+
+a.seat:active {
+    color:  #5C4B51;
+    background: #f56500;
+}
+
+a.seat-dummy {
+    background-color: #fff;
+    color: #fff;
+    border: #fff;
+}
+
+.table-margin {
+    display: inline-block;
+    width: 20%;
+    height: 1rem;
+    padding: 0px 0px;
+    /* 席の間隔表示用 */
+    border: 10px solid #ddd;
+    color: #ddd;
+    background: #ddd;
+
+}
+
 .scroll {
     overflow: scroll;
     border: gray 0.5px solid;
@@ -80,6 +111,13 @@ a.btn--square:active {
     border-radius: 3px;
     border: 2px solid #ddd;
     box-sizing: border-box;
+}
+
+.seats {
+    max-height: 80%;
+    position: relative;
+    text-align: center;
+
 }
 
 hr {
@@ -118,11 +156,9 @@ header .action {
     padding: 0.5rem;
 }
 
-
-/* .content { padding: 0 1rem 1rem; margin: 1rem 0; height: 100%; } */
-
 .content {
     padding: 1rem 1rem 1rem 1rem;
+    height: 100%;
 }
 
 .content>header {
@@ -227,14 +263,9 @@ input[type=submit]:active {
 
 input {
     width: 100%;
-    /*親要素いっぱい広げる*/
     padding: 10px 15px;
-    /*ボックスを大きくする*/
     font-size: 16px;
     border-radius: 3px;
-    /*ボックス角の丸み*/
     border: 2px solid #ddd;
-    /*枠線*/
     box-sizing: border-box;
-    /*横幅の解釈をpadding, borderまでとする*/
 }
