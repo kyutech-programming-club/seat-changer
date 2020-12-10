@@ -137,7 +137,6 @@ def category(id):
       print(hobby_check)
       print(gender_check)
       print(shape_check)
-      print(seat_order)
       print("--------------------------------------------------")
 
       return redirect(url_for('room.result', id=id))
@@ -147,9 +146,39 @@ def category(id):
 @bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
 def result(id):
-  seat_order = seat.seat_change(participants, smoke_alcohol_check, hobby_check, gender_check)
+  db = get_db()
 
-  return render_template('room/result.html', id=id)
+  participants = db.execute(
+    'SELECT user_id, username'
+    ' FROM participant JOIN user ON user_id = id'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchall()
+
+  seat_check = db.execute(
+    'SELECT * FROM seat'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchone()
+
+  smoke_alcohol = []
+  smoke_alcohol.append(seat_check['smoke'])
+  smoke_alcohol.append(seat_check['alcohol'])
+  hobby = seat_check['hobby']
+  gender = seat_check['gender']
+  shape = seat_check['shape']
+
+  seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
+
+  print("--------------------------------------------------")
+  print(smoke_alcohol)
+  print(hobby)
+  print(gender)
+  print(shape)
+  print(seat_order)
+  print("--------------------------------------------------")
+
+  return render_template('room/result.html', id=id, shape=shape, seat_order=seat_order)
 
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
