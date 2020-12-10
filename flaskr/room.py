@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from werkzeug.exceptions import abort
+from . import seat
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
@@ -107,10 +108,6 @@ def invite(id):
 def category(id):
     db = get_db()
 
-    if request.method == 'POST':
-      shape = request.form.get('shape')
-      return redirect(url_for('room.result', id=id))
-    
     participants = db.execute(
       'SELECT user_id, username'
       ' FROM participant JOIN user ON user_id = id'
@@ -118,12 +115,53 @@ def category(id):
       (id,)
     ).fetchall()
 
+    if request.method == 'POST':
+      smoke_check = request.form.get('smoke')
+      alcohol_check = request.form.get('alcohol')
+      hobby_check = request.form.get('hobby')
+      gender_check = request.form.get('gender')
+      shape_check = request.form.get('shape')
+
+      db.execute(
+        'INSERT INTO seat (room_id, smoke, alcohol, hobby, gender, shape)'
+        ' VALUES (?, ?, ?, ?, ?, ?)',
+        (id, smoke_check, alcohol_check, hobby_check, gender_check, shape_check)
+      )
+      db.commit()
+
+      return redirect(url_for('room.result', id=id))
+    
     return render_template('room/category.html', participants=participants, id=id)
 
 @bp.route('/<int:id>/result', methods=('GET', 'POST'))
 @login_required
 def result(id):
-    return render_template('room/result.html', id=id)
+  db = get_db()
+
+  participants = db.execute(
+    'SELECT user_id, username'
+    ' FROM participant JOIN user ON user_id = id'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchall()
+
+  seat_check = db.execute(
+    'SELECT * FROM seat'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchone()
+
+  smoke_alcohol = []
+  smoke_alcohol.append(seat_check['smoke'])
+  smoke_alcohol.append(seat_check['alcohol'])
+  hobby = seat_check['hobby']
+  gender = seat_check['gender']
+  shape = seat_check['shape']
+
+  seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
+  print(seat_order)
+
+  return render_template('room/result.html', id=id, shape=shape, seat_order=seat_order)
 
 @bp.route('/<int:id>/delete_room', methods=('POST',))
 @login_required
@@ -136,6 +174,12 @@ def delete_room(id):
   )
 
   db.execute(
+    'DELETE FROM seat'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+
+  db.execute(
     'DELETE FROM room'
     ' WHERE id = ?',
     (id,)
@@ -143,4 +187,18 @@ def delete_room(id):
   db.commit()
 
   return redirect(url_for('room.index'))
+
+@bp.route('/<int:id>/delete_seat', methods=('POST',))
+@login_required
+def delete_seat(id):
+  db = get_db()
+
+  db.execute(
+    'DELETE FROM seat'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.category', id=id))
 
