@@ -493,16 +493,3 @@ def seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_chec
 
   return seat_result
 
-def try_seat_change(participants_list):
-  smoke_alcohol = [0, 0]
-
-  for smoke in range(2):
-    smoke_alcohol[0] = smoke
-    for alcohol in range(2):
-      smoke_alcohol[1] = alcohol
-      for hobby in range(2):
-        for gender in range(3):
-          try:
-            print(seat_change(participants_list, smoke_alcohol, hobby, gender))
-          except:
-            print("smoke_alcohol:" + str(smoke_alcohol) + "hobby:" + str(hobby) + "gender:" + str(gender))
