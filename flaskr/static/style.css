@@ -91,9 +91,13 @@ a.seat-dummy {
 .table-margin {
     display: inline-block;
     width: 20%;
-    padding: 10px 15px;
+    height: 1rem;
+    padding: 0px 0px;
     /* 席の間隔表示用 */
-    /* border: 2px solid #ddd; */
+    border: 10px solid #ddd;
+    color: #ddd;
+    background: #ddd;
+
 }
 
 .scroll {
