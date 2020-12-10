@@ -6,6 +6,9 @@
 
 {% block content %}
     <h1>席順を表示</h1>
+    <form action="{{ url_for('room.delete_seat', id=id) }}" method="post">
+      <input type="submit" value="もう一度席替えをする">
+    </form>
     <form action="{{ url_for('room.delete_room', id=id) }}" method="post">
       <input type="submit" value="終了">
     </form>

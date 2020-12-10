@@ -190,3 +190,17 @@ def delete_room(id):
 
   return redirect(url_for('room.index'))
 
+@bp.route('/<int:id>/delete_seat', methods=('POST',))
+@login_required
+def delete_seat(id):
+  db = get_db()
+
+  db.execute(
+    'DELETE FROM seat'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+  db.commit()
+
+  return redirect(url_for('room.category', id=id))
+
