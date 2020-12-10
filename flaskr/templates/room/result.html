@@ -8,7 +8,7 @@
   <h1>席順を表示</h1>
   <div class="seats scroll">
   {% if shape_check == 0 %}
-    {% for i in range(seat_order | length // 2) %}
+    {% for i in range(seat_order | length - 1)[::2] %}
       <div class="seat-line">
         <a href="{{ url_for('auth.userpage', id=seat_order[i]['user_id']) }}" class="seat">{{ seat_order[i]['username'] }}</a>
         <a class="table-margin">margin</a>
