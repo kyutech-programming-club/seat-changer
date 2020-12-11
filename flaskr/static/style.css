@@ -33,7 +33,7 @@ a.btn--rounded {
     text-align: center;
     white-space: nowrap;
     color: #fff;
-    background-color: #8CBEB2;
+    background-color: #62B15A;
     border-radius: 2rem;
     font-size: 12px;
 }
@@ -141,7 +141,7 @@ td {
 }
 
 nav {
-    background: #ffea70;
+    background: #fff76a;
     display: block;
     align-items: center;
     padding: 0 0.5rem;
@@ -149,6 +149,7 @@ nav {
 }
 
 nav h1 {
+    color: #ff0000;
     flex: auto;
     margin: 0;
 }
