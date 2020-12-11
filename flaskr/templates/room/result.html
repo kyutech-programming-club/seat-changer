@@ -10,27 +10,27 @@
   {% if shape_check == 0 %}
     {% for i in range(seat_order | length - 1)[::2] %}
       <div class="seat-line">
-        <a href="{{ url_for('auth.userpage', id=seat_order[i]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[i]['username'] }}</a>
+        <a href="{{ url_for('auth.userpage', id=seat_order[i]['user_id']) }}" class="seat">{{ seat_order[i]['username'] }}</a>
         <a class="table-margin">margin</a>
-        <a href="{{ url_for('auth.userpage', id=seat_order[i+1]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[i+1]['username'] }}</a>
+        <a href="{{ url_for('auth.userpage', id=seat_order[i+1]['user_id']) }}" class="seat">{{ seat_order[i+1]['username'] }}</a>
       </div>
     {% endfor %}
     {% if seat_order | length % 2 == 1 %}
-      <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[-1]['username'] }}</a>
+      <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">{{ seat_order[-1]['username'] }}</a>
         <a class="table-margin">margin</a>
       <a href="" class="seat seat-dummy"></a>
     {% endif %}
   {% elif shape_check == 1 %}
-    <a href="{{ url_for('auth.userpage', id=seat_order[0]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[0]['username'] }}</a>
+    <a href="{{ url_for('auth.userpage', id=seat_order[0]['user_id']) }}" class="seat">{{ seat_order[0]['username'] }}</a>
     {% for i in range((seat_order | length - 1) // 2) %}
       <div class="seat-line">
-        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2-1]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[(i+1)*2-1]['username'] }}</a>
+        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2-1]['user_id']) }}" class="seat">{{ seat_order[(i+1)*2-1]['username'] }}</a>
         <a class="table-margin">margin</a>
-        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[(i+1)*2]['username'] }}</a>
+        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2]['user_id']) }}" class="seat">{{ seat_order[(i+1)*2]['username'] }}</a>
       </div>
     {% endfor %}
     {% if seat_order | length % 2 == 0 %}
-      <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id'], seat_order=seat_order) }}" class="seat">{{ seat_order[-1]['username'] }}</a>
+      <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">{{ seat_order[-1]['username'] }}</a>
     {% endif %}
   {% endif %}
   </div>
