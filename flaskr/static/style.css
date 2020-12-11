@@ -12,15 +12,34 @@ body {
 }
 
 h1 {
-    font-family: sans-serif;
     color: #5C4B51;
     margin: 1rem 0 0 0;
     white-space: nowrap;
     width: fit-content;
 }
 
+h2 {
+    font-size: 18px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+h4 {
+    font-size: 15px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+p{
+    color: #5C4B51;
+}
+
 a {
-    color: #F06060;
+    color: #FF0000;
     text-decoration: none;
 }
 
@@ -41,7 +60,7 @@ a.btn--rounded {
 .btn--rounded:active,
 a.btn--rounded:active {
     color: #fff;
-    background: #3dd4b1;
+    background: #ADCE74;
 }
 
 /* ホームに戻る用白立体ボタン */
@@ -61,6 +80,21 @@ a.btn--square {
     background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
     -webkit-box-shadow: inset 1px 1px 1px #fff;
     box-shadow: inset 1px 1px 1px #fff;
+}
+
+.user_table {
+    width: 100%;
+    position: relative;
+}
+
+.user_info {
+    float: left;
+}
+
+.edit {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 a.btn--square:active {
@@ -141,7 +175,7 @@ td {
 }
 
 nav {
-    background: #fff76a;
+    background: #FFF76A;
     display: block;
     align-items: center;
     padding: 0 0.5rem;
@@ -240,6 +274,10 @@ header .action {
     margin-bottom: 0.5em;
     color: #5C4B51;
     font-family: sans-serif;
+}
+
+.back {
+    text-align: center;
 }
 
 .content input,

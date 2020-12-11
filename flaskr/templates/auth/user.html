@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block content %}
-  <h2>ユーザーの情報</h2>
+<table class="user_table"><tr class="user_tr">
+  <th class="user_info"><h2>ユーザーの情報</h2></th>
+  <th class="edit">
+    {% if g.user['id'] == id %}
+    <a class="action btn--square" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
+    {% endif %}
+  </th>
+</tr></table>
   <p>
     性別：{{ gender['gender'] }} <br>
     お酒：{{ alcohol['degree'] }} <br>
@@ -17,9 +24,6 @@
       {{ hobby['category'] }}<br>
     {% endfor %}
 </div>
-  {% if g.user['id'] == id %}
-    <a class="action btn--square" href="{{ url_for('auth.user_info', id=id) }}">編集</a>
-  {% endif %}
   {% if g.user['id'] == id %}
     <a class="action" href="{{ url_for('auth.friends') }}">友達一覧</a>
     {% if is_maybe_friend == True %}
@@ -34,7 +38,10 @@
     {% endif %}
   {% endif %}
   <br>
-  <a class="action" href="#" onclick="history.back(); return false;">
-   <input type="submit" value="戻る">
-  </a>
+  <div class="back">
+    <a class="action" href="#" onclick="history.back(); return false;">
+      <input type="submit" value="戻る">
+     </a>
+  </div>
+
 {% endblock %}
