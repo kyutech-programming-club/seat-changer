@@ -127,6 +127,14 @@ a.seat-dummy {
     text-align: center;
 }
 
+.friends {
+    max-height: 50%;
+}
+
+.invite {
+    max-height: 16rem;
+}
+
 hr {
     border: none;
     border-top: 1px solid lightgray;

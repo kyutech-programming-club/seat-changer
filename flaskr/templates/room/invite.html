@@ -9,7 +9,7 @@
   <div class="about">作成者：{{ room['username'] }}</div>
   <hr>
   <form method="post">
-  <div class="scroll" data-toggle="buttons">
+  <div class="invite scroll" data-toggle="buttons">
   {% for participant in participants %}
   {% if participant['user_id'] != g.user['id'] %}
     <div>
