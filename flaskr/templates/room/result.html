@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-  <h1>席順を表示</h1>
   <div class="seats scroll">
   {% if shape_check == 0 %}
     {% for i in range(seat_order | length - 1)[::2] %}
