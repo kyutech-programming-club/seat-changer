@@ -30,6 +30,7 @@
         </label>
       </div>
 
+      <br>
       <h2>席の形を選んでください</h2>
       <div class="vertical-align-em">
         <input type="radio" name="shape" value="0" checked>
@@ -38,8 +39,9 @@
         <img src="/static/birthday-seat.png" alt="誕生日席付き型" style="width: 30%">
       </div>
 
-      <h4>参加者一覧</h4>
-      <a href="{{ url_for('room.invite', id=id) }}">編集</a>
+      <h4>参加者一覧 &nbsp;
+      <a href ="{{ url_for('room.invite', id=id) }}" style="font-size: 13px;">編集</a>
+      </h4>
       <div class="scroll">
       {% for participant in participants %}
         <h5>{{ participant['username'] }}</h5>
