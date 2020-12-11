@@ -125,6 +125,10 @@ hr {
     border-top: 1px solid lightgray;
 }
 
+td {
+    text-align: center;
+}
+
 nav {
     background: #F2EBBF;
     display: flex;
@@ -237,6 +241,13 @@ input.danger {
 }
 
 input[type=submit] {
+    align-self: start;
+    min-width: 5em;
+    margin: 0 auto;
+    width: auto;
+}
+
+input[type=button] {
     align-self: start;
     min-width: 5em;
     margin: 0 auto;

@@ -7,7 +7,9 @@
 {% block content %}
   <form method="post">
     <input name="hobbys" id="hobbys" required>
-    <input type="button" value="キャンセル" onclick="history.back()">
-    <input type="submit" value="完了">
+    <table><tr>
+    <td><input type="button" value="取消" onclick="history.back()"></td>
+    <td><input type="submit" value="完了"></td>
+    </tr></table>
   </form>
 {% endblock %}
