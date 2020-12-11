@@ -269,3 +269,12 @@ input {
     border: 2px solid #ddd;
     box-sizing: border-box;
 }
+
+#loading {
+    width: auto;
+    height: 100%;
+    margin: 0 auto;
+    display: none;
+    background: url(/static/loadingimage.gif) no-repeat;
+    cursor: wait;
+}

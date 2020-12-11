@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+<div id="loading"></div>
+<div id="content">
 <form method="post">
   <div>
     <label for="smoke">タバコ</label>
@@ -43,7 +45,15 @@
   </div>
 
   <div>
-    <input type="submit" value="Finish">
+    <input type="submit" value="Finish" onclick="loading();">
   </div>
 </form>
+</div>
+<script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+<script type="text/javascript">
+  function loading(){
+    $("#loading").show();
+    $("#content").hide();
+  }
+</script>
 {% endblock %}
