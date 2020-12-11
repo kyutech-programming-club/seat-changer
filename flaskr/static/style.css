@@ -323,3 +323,7 @@ input {
     bottom: 0;
     left: 0;
 }
+
+.vertical-align-em input,
+.vertical-align-em select{
+	vertical-align:1.6em;
