@@ -7,10 +7,10 @@
     <ul>
         {% if g.user %}
             <li><a href="{{ url_for('auth.userpage', id=g.user['id']) }}" class="btn btn--rounded btn--radius">{{ g.user['username'] }}</a>
-            <li><a href="{{ url_for('auth.logout') }}" class="btn btn--rounded btn--radius">Log Out</a> 
+            <li><a href="{{ url_for('auth.logout') }}" class="btn btn--rounded btn--radius">ログアウト</a> 
         {% else %}
-            <li><a href="{{ url_for('auth.register') }}" class="btn btn--rounded btn--radius">Sign Up</a>
-            <li><a href="{{ url_for('auth.login') }}" class="btn btn--rounded btn--radius">Log In</a> 
+            <li><a href="{{ url_for('auth.register') }}" class="btn btn--rounded btn--radius">登録</a>
+            <li><a href="{{ url_for('auth.login') }}" class="btn btn--rounded btn--radius">ログイン</a> 
         {% endif %}
     </ul>
 </nav>

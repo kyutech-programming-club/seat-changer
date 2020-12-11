@@ -7,6 +7,7 @@
 {% block content %}
 <div id="loading-outer">
   <div id="loading"></div>
+</div>
   <div id="content">
     <form method="post">
       <div>
@@ -44,11 +45,8 @@
         <h5>{{ participant['username'] }}</h5>
       {% endfor %}
       </div>
-
-      <div>
-        <input type="submit" value="Finish" onclick="loading();">
-      </div>
-    </form>
+  <div>
+    <input type="submit" value="席替えをする" onclick="loading();">
   </div>
 </div>
 <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>

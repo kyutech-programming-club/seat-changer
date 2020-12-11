@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-    font-family: serif;
+    font-family: sans-serif;
     color: #5C4B51;
     margin: 1rem 0 0 0;
     white-space: nowrap;
@@ -29,7 +29,7 @@ a {
 .btn--rounded,
 a.btn--rounded {
     margin: 3rem 0.25rem 0.25rem 0rem;
-    min-width: 4rem;
+    min-width: 3.8rem;
     text-align: center;
     white-space: nowrap;
     color: #fff;
@@ -125,6 +125,10 @@ hr {
     border-top: 1px solid lightgray;
 }
 
+td {
+    text-align: center;
+}
+
 nav {
     background: #F2EBBF;
     display: flex;
@@ -218,7 +222,7 @@ header .action {
     font-weight: bold;
     margin-bottom: 0.5em;
     color: #5C4B51;
-    font-family: serif;
+    font-family: sans-serif;
 }
 
 .content input,
@@ -238,6 +242,13 @@ input.danger {
 }
 
 input[type=submit] {
+    align-self: start;
+    min-width: 5em;
+    margin: 0 auto;
+    width: auto;
+}
+
+input[type=button] {
     align-self: start;
     min-width: 5em;
     margin: 0 auto;
@@ -271,7 +282,6 @@ input {
     box-sizing: border-box;
 }
 
-
 #loading-outer {
     position: relative;
 }
@@ -289,4 +299,3 @@ input {
     bottom: 0;
     left: 0;
 }
-

@@ -211,7 +211,7 @@ def userpage(id):
     alcohol=alcohol,
     smoke=smoke,
     hobbys=hobbys
-    )
+  )
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required
