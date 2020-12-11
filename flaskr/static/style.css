@@ -75,6 +75,8 @@ a.seat {
     background-color: #F3B562;
     color:  #5C4B51;
     border-radius: 1rem;
+    vertical-align: middle;
+    margin: 3px;
 }
 
 a.seat:active {
@@ -86,6 +88,12 @@ a.seat-dummy {
     background-color: #fff;
     color: #fff;
     border: #fff;
+}
+
+.seat-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .table-margin {
@@ -117,7 +125,6 @@ a.seat-dummy {
     max-height: 80%;
     position: relative;
     text-align: center;
-
 }
 
 hr {
