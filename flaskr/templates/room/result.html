@@ -21,12 +21,13 @@
       </div>
     {% endfor %}
     {% if seat_order | length % 2 == 1 %}
-      <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
-        <div class="shortcut" style="width:95%;">
-          {{ seat_order[-1]['username'] }}
-        </div></a>
-        <a class="table-margin">margin</a>
-      <a href="" class="seat seat-dummy"></a>
+      <div class="seat-line">
+        <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
+          <div class="shortcut" style="width:95%;">
+            {{ seat_order[-1]['username'] }}
+          </div></a>
+          <a class="table-margin">margin</a>
+        <a href="" class="seat seat-dummy"></a>
       </div>
     {% endif %}
   {% elif shape_check == 1 %}
