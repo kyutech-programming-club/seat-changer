@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block content %}
-  <h1>{{ room['title'] }}</h1>
-  <div class="about">by {{ room['username'] }}</div>
+  <h1>ルームの名前：{{ room['title'] }}</h1>
+  <div class="about">作成者：{{ room['username'] }}</div>
   <hr>
   <form method="post">
   <div class="scroll" data-toggle="buttons">
@@ -25,6 +25,6 @@
       </div>
   {% endfor %}
   </div>
-    <input type="submit" value="Next">
+    <input type="submit" value="次へ">
   </form>
 {% endblock %}
