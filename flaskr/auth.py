@@ -200,18 +200,33 @@ def userpage(id):
     if add_list['guest_id'] == id:
       is_friend = False
 
-  return render_template(
-    'auth/user.html',
-    user=user,
-    id=id,
-    maybe_friends=maybe_friends,
-    is_maybe_friend=is_maybe_friend,
-    is_friend=is_friend,
-    gender=gender,
-    alcohol=alcohol,
-    smoke=smoke,
-    hobbys=hobbys
-    )
+  if request.args.get('seat_order') == None:
+    return render_template(
+      'auth/user.html',
+      user=user,
+      id=id,
+      maybe_friends=maybe_friends,
+      is_maybe_friend=is_maybe_friend,
+      is_friend=is_friend,
+      gender=gender,
+      alcohol=alcohol,
+      smoke=smoke,
+      hobbys=hobbys
+      )
+  else:
+    return render_template(
+      'auth/user.html',
+      user=user,
+      id=id,
+      maybe_friends=maybe_friends,
+      is_maybe_friend=is_maybe_friend,
+      is_friend=is_friend,
+      gender=gender,
+      alcohol=alcohol,
+      smoke=smoke,
+      hobbys=hobbys,
+      seat_order=request.args.get('seat_order')
+      )
 
 @bp.route('/friends', methods=('GET', 'POST'))
 @login_required
