@@ -38,8 +38,8 @@
     <div class="scroll">
     {% for hobby in hobbys %}
       <div>
-        <label for="{{hobby['category']}}">{{hobby['category']}}</label>
         <input type="checkbox" id="{{hobby['category']}}" name="check" value="{{hobby['category']}}">
+        <label for="{{hobby['category']}}">{{hobby['category']}}</label>
       </div>
     {% endfor %}
     </div>
