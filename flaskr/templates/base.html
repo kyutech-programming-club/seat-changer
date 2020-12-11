@@ -3,7 +3,9 @@
 <title>{% block title %}{% endblock %} - seat-changer</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-    <h1><a href="{{ url_for('room.index') }} ">Seat-Changer</a></h1>
+    <div class="home">
+        <h1><a href="{{ url_for('room.index') }} ">Seat-Changer</a></h1>
+    </div>
     <ul>
         {% if g.user %}
             <li>
