@@ -33,15 +33,8 @@
       <a class="action btn--square" href="{{ url_for('auth.add_friend', id=id) }}">友達追加</a>
     {% endif %}
   {% endif %}
-  {% if seat_order == None %}
-    <br>
-    <a class="action" href="#" onclick="history.back(); return false;">
-     <input type="submit" value="戻る">
-    </a>
-  {% else %}
-    <br>
-    <a class="action" href="{{ url_for('room.result', id=id, seat_order=seat_order) }}">
-     <input type="submit" value="戻る">
-    </a>
-  {% endif %}
+  <br>
+  <a class="action" href="#" onclick="history.back(); return false;">
+   <input type="submit" value="戻る">
+  </a>
 {% endblock %}

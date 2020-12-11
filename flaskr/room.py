@@ -158,10 +158,7 @@ def result(id):
   gender = seat_check['gender']
   shape_check = seat_check['shape']
 
-  if request.args.get('seat_order') == None:
-    seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
-  else:
-    seat_order = request.args.get('seat_order')
+  seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
 
   print(seat_order)
 
