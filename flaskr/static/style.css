@@ -175,13 +175,8 @@ td {
 }
 
 nav {
-<<<<<<< HEAD
     background: #FFF76A;
-    display: flex;
-=======
-    background: #ffea70;
     display: block;
->>>>>>> 89ce474d6195187447e1815f0b311770d156c612
     align-items: center;
     padding: 0 0.5rem;
     height: fit-content;
