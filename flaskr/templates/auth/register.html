@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Sign Up{% endblock %}</h1>
+  <h1>{% block title %}登録{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="username">Username</label>
+    <label for="username">ユーザーネーム</label>
     <input name="username" id="username" required>
-    <label for="password">Password</label>
+    <label for="password">パスワード</label>
     <input type="password" name="password" id="password" required>
     <p><label>性別：
         <select name="gender">
@@ -43,6 +43,6 @@
       </div>
     {% endfor %}
     </div>
-    <input type="submit" value="Sign Up">
+    <input type="submit" value="登録">
   </form>
 {% endblock %}
