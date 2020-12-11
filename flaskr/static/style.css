@@ -161,6 +161,7 @@ header .action {
 }
 
 .content {
+    position: relative;
     padding: 1rem 1rem 1rem 1rem;
     height: 100%;
 }
@@ -279,4 +280,22 @@ input {
     border-radius: 3px;
     border: 2px solid #ddd;
     box-sizing: border-box;
+}
+
+#loading-outer {
+    position: relative;
+}
+
+#loading {
+    width: 50%;
+    height: 10%;
+    margin: auto;
+    display: none;
+    background: url(/static/loadingimage.gif) no-repeat;
+    cursor: wait;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
