@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{% endblock %} - seat-changer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+    <div class="home">
+        <h1><a href="{{ url_for('room.index') }} ">Seat-Changer</a></h1>
+    </div>
+    <ul>
+        {% if g.user %}
+            <li>
+                <a href="{{ url_for('auth.userpage', id=g.user['id']) }}" class="btn btn--rounded btn--radius">
+                    <div class="shortcut" style="width: 80px;">
+                            {{ g.user['username'] }}
+                    </div>
+                </a>
+            <li><a href="{{ url_for('auth.logout') }}" class="btn btn--rounded btn--radius">ログアウト</a> 
+        {% else %}
+            <li><a href="{{ url_for('auth.register') }}" class="btn btn--rounded btn--radius">登録</a>
+            <li><a href="{{ url_for('auth.login') }}" class="btn btn--rounded btn--radius">ログイン</a> 
+        {% endif %}
+    </ul>
+</nav>
+<section class="content">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</section>

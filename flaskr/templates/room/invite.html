@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}ユーザーを招待{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h2>ルームの名前：{{ room['title'] }}</h1>
+  <h4>作成者：{{ room['username'] }}</h4>
+  <hr>
+  <form method="post">
+  <div class="invite scroll" data-toggle="buttons">
+  {% for participant in participants %}
+  {% if participant['user_id'] != g.user['id'] %}
+    <div>
+      <input type="checkbox" id="{{ participant['user_id'] }}" name="check" value="{{ participant['user_id'] }}" checked>
+      <label for="{{ participant['user_id'] }}">{{ participant['username'] }}</label>
+    </div>
+  {% endif %}
+  {% endfor %}
+  {% for user in users %}
+      <div>
+        <input type="checkbox" id="{{ user['guest_id'] }}" name="check" value="{{ user['guest_id'] }}">
+        <label for="{{ user['guest_id'] }}">{{ user['username'] }}</label>
+      </div>
+  {% endfor %}
+  </div>
+    <input type="submit" value="次へ">
+  </form>
+{% endblock %}

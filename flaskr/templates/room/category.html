@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}カテゴリを選択{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div id="loading"></div>
+  <div id="content">
+    <form method="post">
+      <div>
+        <label for="smoke">タバコ</label>
+        <input type="checkbox" id="smoke" name="smoke" value="1">
+        <input type="hidden" name="smoke" value="0">
+        <label for="alcohol">お酒</label>
+        <input type="checkbox" id="alcohol" name="alcohol" value="1">
+        <input type="hidden" name="alcohol" value="0">
+        <label for="hobby">趣味</label>
+        <input type="checkbox" id="hobby" name="hobby" value="1">
+        <input type="hidden" name="hobby" value="0">
+      </div>
+
+      <div>
+        <label>性別
+          <select name="gender">
+            <option value="0">ランダム</option>
+            <option value="1">男女別</option>
+            <option value="2">交互</option>
+          </select>
+        </label>
+      </div>
+
+      <br>
+      <h2>席の形を選んでください</h2>
+      <div class="vertical-align-em">
+        <input type="radio" name="shape" value="0" checked>
+        <img src="/static/face-to-face.png" alt="対面型" style="width: 30%">
+        <input type="radio" name="shape" value="1">
+        <img src="/static/birthday-seat.png" alt="誕生日席付き型" style="width: 30%">
+      </div>
+
+      <h4>参加者一覧 &nbsp;
+      <a href ="{{ url_for('room.invite', id=id) }}" style="font-size: 13px;">編集</a>
+      </h4>
+      <div class="scroll">
+      {% for participant in participants %}
+        <h5>{{ participant['username'] }}</h5>
+      {% endfor %}
+      </div>
+      <div style="text-align: center;">
+        <input type="submit" value="席替えをする" onclick="loading();">
+      </div>
+    </form>
+  </div>
+<script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+<script type="text/javascript">
+  function loading(){
+    $("#loading").show();
+    $("#content").hide();
+  }
+</script>
+{% endblock %}

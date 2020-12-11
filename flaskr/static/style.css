@@ -1,0 +1,370 @@
+html {
+    font-family: sans-serif;
+    background: #eee;
+    padding: 1rem;
+}
+
+body {
+    margin: 0 auto;
+    background: white;
+    width: 100%;
+    min-height: 96vh;
+}
+
+h1 {
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+h2 {
+    font-size: 18px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+h4 {
+    font-size: 15px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+p{
+    color: #5C4B51;
+}
+
+a {
+    color: #FF0000;
+    text-decoration: none;
+}
+
+/* 青丸形ボタン */
+
+.btn--rounded,
+a.btn--rounded {
+    margin: 0.25rem;
+    min-width: 3.8rem;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    background-color: #62B15A;
+    border-radius: 2rem;
+    font-size: 12px;
+}
+
+.btn--rounded:active,
+a.btn--rounded:active {
+    color: #fff;
+    background: #ADCE74;
+}
+
+/* ホームに戻る用白立体ボタン */
+
+a.btn--square {
+    color: black;
+    display: block;
+    width: fit-content;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background: #f1e767;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(top, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
+    -webkit-box-shadow: inset 1px 1px 1px #fff;
+    box-shadow: inset 1px 1px 1px #fff;
+}
+
+.user_table {
+    width: 100%;
+    position: relative;
+}
+
+.user_info {
+    float: left;
+}
+
+.edit {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+a.btn--square:active {
+    background: -webkit-gradient(linear, left bottom, left top, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(bottom, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to top, #fdfbfb 0%, #ebedee 100%);
+}
+
+a.seat {
+    display: inline-block;
+    width: 30%;
+    max-width: 7rem;
+    background-color: #F3B562;
+    color:  #5C4B51;
+    border-radius: 1rem;
+    vertical-align: middle;
+    margin: 3px;
+}
+
+a.seat:active {
+    color:  #5C4B51;
+    background: #f56500;
+}
+
+a.seat-dummy {
+    background-color: #fff;
+    color: #fff;
+    border: #fff;
+}
+
+.seat-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-margin {
+    display: inline-block;
+    width: 20%;
+    height: 1rem;
+    padding: 0px 0px;
+    border: 10px solid #ddd;
+    color: #ddd;
+    background: #ddd;
+
+}
+
+.scroll {
+    overflow: scroll;
+    border: gray 0.5px solid;
+    width: 100%;
+    max-height: 8rem;
+    padding: 10px 15px;
+    margin: 1rem 0rem 1rem 0rem;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 2px solid #ddd;
+    box-sizing: border-box;
+}
+
+.seats {
+    max-height: 60vh;
+    position: relative;
+    text-align: center;
+}
+
+.friends, .invite {
+    max-height: 40vh;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid lightgray;
+}
+
+td {
+    text-align: center;
+}
+
+nav {
+    background: #FFF76A;
+    display: block;
+    align-items: center;
+    padding: 0 0.5rem;
+    height: fit-content;
+}
+
+nav h1 {
+    color: #ff0000;
+    flex: auto;
+    margin: 0;
+}
+
+nav h1 a {
+    text-decoration: none;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    -webkit-justify-content: flex-end;
+}
+
+nav ul li a,
+nav ul li span,
+header .action {
+    display: block;
+    padding: 0.5rem;
+}
+
+.home {
+    padding-top: 1rem;
+}
+
+.content {
+    position: relative;
+    padding: 1rem 1rem 1rem 1rem;
+    height: 100vh;
+}
+
+.content>header {
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    align-items: flex-end;
+}
+
+.content>header h1 {
+    flex: auto;
+    margin: 1rem 0 0.25rem 0;
+}
+
+.flash {
+    margin: 1em 0;
+    padding: 1em;
+    background: #cae6f6;
+    border: 1px solid#8CBEB2;
+}
+
+.post>header {
+    display: flex;
+    align-items: flex-end;
+    font-size: 0.85em;
+}
+
+.post>header>div:first-of-type {
+    flex: auto;
+}
+
+.post>header h1 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+}
+
+.post .about {
+    color: slategray;
+    font-style: italic;
+}
+
+.post .body {
+    white-space: pre-line;
+}
+
+.content:last-child {
+    margin-bottom: 0;
+}
+
+.content form {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #5C4B51;
+    font-family: sans-serif;
+}
+
+.back {
+    text-align: center;
+}
+
+.content input,
+.content textarea {
+    margin: auto;
+    margin-bottom: 1em;
+    width: auto;
+}
+
+.content textarea {
+    min-height: 12em;
+    resize: vertical;
+}
+
+input.danger {
+    color: #cc2f2e;
+}
+
+input[type=submit] {
+    align-self: start;
+    min-width: 5em;
+    margin: 0 auto;
+    width: auto;
+}
+
+input[type=button] {
+    align-self: start;
+    min-width: 5em;
+    margin: 0 auto;
+    width: auto;
+}
+
+/* 白色立体のネクストボタン */
+
+input[type=submit] {
+    border: 1px solid #ccc;
+    background: #f1e767;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(top, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
+    -webkit-box-shadow: inset 1px 1px 1px #fff;
+    box-shadow: inset 1px 1px 1px #fff;
+}
+
+input[type=submit]:active {
+    background: -webkit-gradient(linear, left bottom, left top, from(#fdfbfb), to(#ebedee));
+    background: -webkit-linear-gradient(bottom, #fdfbfb 0%, #ebedee 100%);
+    background: linear-gradient(to top, #fdfbfb 0%, #ebedee 100%);
+}
+
+input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 2px solid #ddd;
+    box-sizing: border-box;
+}
+
+.shortcut {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align:center;
+}
+
+#loading-outer {
+    position: relative;
+}
+
+#loading {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    display: none;
+    background: url(/static/loadingimage.gif) no-repeat;
+    background-position: center;
+    cursor: wait;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 30vh;
+    left: 0;
+}
+
+.vertical-align-em input,
+.vertical-align-em select{
+	vertical-align:1.6em;
+}

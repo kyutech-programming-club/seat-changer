@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}席順{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="seats scroll">
+  {% if shape_check == 0 %}
+    {% for i in range(seat_order | length - 1)[::2] %}
+      <div class="seat-line">
+        <a href="{{ url_for('auth.userpage', id=seat_order[i]['user_id']) }}" class="seat">
+          <div class="shortcut" style="width:95%;">
+            {{ seat_order[i]['username'] }}
+          </div></a>
+        <a class="table-margin">margin</a>
+        <a href="{{ url_for('auth.userpage', id=seat_order[i+1]['user_id']) }}" class="seat">
+          <div class="shortcut" style="width:95%;">
+            {{ seat_order[i+1]['username'] }}
+          </div></a>
+      </div>
+    {% endfor %}
+    {% if seat_order | length % 2 == 1 %}
+      <div class="seat-line">
+        <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
+          <div class="shortcut" style="width:95%;">
+            {{ seat_order[-1]['username'] }}
+          </div></a>
+          <a class="table-margin">margin</a>
+        <a href="" class="seat seat-dummy"></a>
+      </div>
+    {% endif %}
+  {% elif shape_check == 1 %}
+    <div>
+      <a href="{{ url_for('auth.userpage', id=seat_order[0]['user_id']) }}" class="seat">{{ seat_order[0]['username'] }}</a>
+    </div>
+    {% for i in range((seat_order | length - 1) // 2) %}
+      <div class="seat-line">
+        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2-1]['user_id']) }}" class="seat">
+          <div class="shortcut" style="width:95%;">
+            {{ seat_order[(i+1)*2-1]['username'] }}
+          </div></a>
+        <a class="table-margin">margin</a>
+        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2]['user_id']) }}" class="seat">
+          <div class="shortcut" style="width:95%;">
+            {{ seat_order[(i+1)*2]['username'] }}
+          </div></a>
+      </div>
+    {% endfor %}
+    {% if seat_order | length % 2 == 0 %}
+      <div><a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
+          {{ seat_order[-1]['username'] }}
+      </div></a>
+    {% endif %}
+  {% endif %}
+  </div>
+  <form action="{{ url_for('room.delete_seat', id=id) }}" method="post">
+    <input type="submit" value="もう一度席替えをする">
+  </form>
+  <form action="{{ url_for('room.delete_room', id=id) }}" method="post">
+    <input type="submit" value="終了">
+  </form>
+{% endblock %}

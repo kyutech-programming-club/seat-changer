@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}登録{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">ユーザーネーム</label>
+    <input name="username" id="username" placeholder="ユーザーネーム" required>
+    <label for="password">パスワード</label>
+    <input type="password" name="password" id="password" placeholder="パスワード" required>
+    <p><label>性別：
+        <select name="gender">
+            <option value="男">男</option>
+            <option value="女">女</option>
+            <option value="その他">その他</option>
+        </select>
+    </label></p>
+
+    <p><label>お酒の強さ：
+        <select name="alcohol">
+            <option value="たくさん飲む">たくさん飲む</option>
+            <option value="普通">普通</option>
+            <option value="あまり飲まない">あまり飲まない</option>
+            <option value="全く飲まない">全く飲まない</option>
+        </select>
+    </label></p>
+
+    <p><label>たばこ：
+        <select name="smoke">
+            <option value="吸う">吸う</option>
+            <option value="吸わない">吸わない</option>
+            <option value="無理">無理</option>
+        </select>
+    </label></p>
+    <h2>趣味</h2>
+    <div class="scroll">
+    {% for hobby in hobbys %}
+      <div>
+        <label for="{{hobby['category']}}">{{hobby['category']}}</label>
+        <input type="checkbox" id="{{hobby['category']}}" name="check" value="{{hobby['category']}}">
+      </div>
+    {% endfor %}
+    </div>
+    <input type="submit" value="登録">
+  </form>
+{% endblock %}
