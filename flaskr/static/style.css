@@ -183,6 +183,7 @@ nav {
 }
 
 nav h1 {
+    color: #ff0000;
     flex: auto;
     margin: 0;
 }
