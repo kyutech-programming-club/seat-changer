@@ -12,11 +12,30 @@ body {
 }
 
 h1 {
-    font-family: sans-serif;
     color: #5C4B51;
     margin: 1rem 0 0 0;
     white-space: nowrap;
     width: fit-content;
+}
+
+h2 {
+    font-size: 18px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+h4 {
+    font-size: 15px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+p{
+    color: #5C4B51;
 }
 
 a {
