@@ -35,6 +35,7 @@ a.btn--rounded {
     color: #fff;
     background-color: #8CBEB2;
     border-radius: 2rem;
+    font-size: 12px;
 }
 
 .btn--rounded:active,
@@ -279,4 +280,12 @@ input {
     border-radius: 3px;
     border: 2px solid #ddd;
     box-sizing: border-box;
+}
+
+.shortcut {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align:center;
 }
