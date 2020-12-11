@@ -12,11 +12,30 @@ body {
 }
 
 h1 {
-    font-family: sans-serif;
     color: #5C4B51;
     margin: 1rem 0 0 0;
     white-space: nowrap;
     width: fit-content;
+}
+
+h2 {
+    font-size: 18px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+h4 {
+    font-size: 15px;
+    color: #5C4B51;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+p{
+    color: #5C4B51;
 }
 
 a {
@@ -28,7 +47,7 @@ a {
 
 .btn--rounded,
 a.btn--rounded {
-    margin: 3rem 0.25rem 0.25rem 0rem;
+    margin: 0.25rem;
     min-width: 3.8rem;
     text-align: center;
     white-space: nowrap;
@@ -61,6 +80,21 @@ a.btn--square {
     background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
     -webkit-box-shadow: inset 1px 1px 1px #fff;
     box-shadow: inset 1px 1px 1px #fff;
+}
+
+.user_table {
+    width: 100%;
+    position: relative;
+}
+
+.user_info {
+    float: left;
+}
+
+.edit {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 a.btn--square:active {
@@ -141,11 +175,16 @@ td {
 }
 
 nav {
+<<<<<<< HEAD
     background: #FFF76A;
     display: flex;
+=======
+    background: #ffea70;
+    display: block;
+>>>>>>> 89ce474d6195187447e1815f0b311770d156c612
     align-items: center;
     padding: 0 0.5rem;
-    height: 6rem;
+    height: fit-content;
 }
 
 nav h1 {
@@ -162,6 +201,7 @@ nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    -webkit-justify-content: flex-end;
 }
 
 nav ul li a,
@@ -169,6 +209,10 @@ nav ul li span,
 header .action {
     display: block;
     padding: 0.5rem;
+}
+
+.home {
+    padding-top: 1rem;
 }
 
 .content {
@@ -234,6 +278,10 @@ header .action {
     margin-bottom: 0.5em;
     color: #5C4B51;
     font-family: sans-serif;
+}
+
+.back {
+    text-align: center;
 }
 
 .content input,
