@@ -117,7 +117,14 @@ a.seat-dummy {
     max-height: 80%;
     position: relative;
     text-align: center;
+}
 
+.friends {
+    max-height: 50%;
+}
+
+.invite {
+    max-height: 16rem;
 }
 
 hr {
