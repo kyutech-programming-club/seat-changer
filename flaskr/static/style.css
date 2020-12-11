@@ -76,6 +76,8 @@ a.seat {
     background-color: #F3B562;
     color:  #5C4B51;
     border-radius: 1rem;
+    vertical-align: middle;
+    margin: 3px;
 }
 
 a.seat:active {
@@ -87,6 +89,12 @@ a.seat-dummy {
     background-color: #fff;
     color: #fff;
     border: #fff;
+}
+
+.seat-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .table-margin {
@@ -118,7 +126,14 @@ a.seat-dummy {
     max-height: 80%;
     position: relative;
     text-align: center;
+}
 
+.friends {
+    max-height: 50%;
+}
+
+.invite {
+    max-height: 16rem;
 }
 
 hr {
@@ -162,6 +177,7 @@ header .action {
 }
 
 .content {
+    position: relative;
     padding: 1rem 1rem 1rem 1rem;
     height: 100%;
 }
@@ -288,4 +304,22 @@ input {
     text-overflow: ellipsis;
     overflow: hidden;
     text-align:center;
+}
+
+#loading-outer {
+    position: relative;
+}
+
+#loading {
+    width: 50%;
+    height: 10%;
+    margin: auto;
+    display: none;
+    background: url(/static/loadingimage.gif) no-repeat;
+    cursor: wait;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }

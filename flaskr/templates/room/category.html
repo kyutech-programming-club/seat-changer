@@ -5,45 +5,56 @@
 {% endblock %}
 
 {% block content %}
-<form method="post">
-  <div>
-    <label for="smoke">タバコ</label>
-    <input type="checkbox" id="smoke" name="smoke" value="1">
-    <input type="hidden" name="smoke" value="0">
-    <label for="alcohol">お酒</label>
-    <input type="checkbox" id="alcohol" name="alcohol" value="1">
-    <input type="hidden" name="alcohol" value="0">
-    <label for="hobby">趣味</label>
-    <input type="checkbox" id="hobby" name="hobby" value="1">
-    <input type="hidden" name="hobby" value="0">
+  <div id="loading-outer">
+    <div id="loading"></div>
   </div>
+  <div id="content">
+    <form method="post">
+      <div>
+        <label for="smoke">タバコ</label>
+        <input type="checkbox" id="smoke" name="smoke" value="1">
+        <input type="hidden" name="smoke" value="0">
+        <label for="alcohol">お酒</label>
+        <input type="checkbox" id="alcohol" name="alcohol" value="1">
+        <input type="hidden" name="alcohol" value="0">
+        <label for="hobby">趣味</label>
+        <input type="checkbox" id="hobby" name="hobby" value="1">
+        <input type="hidden" name="hobby" value="0">
+      </div>
 
-  <div>
-    <label>性別
-      <select name="gender">
-        <option value="0">ランダム</option>
-        <option value="1">男女別</option>
-        <option value="2">交互</option>
-      </select>
-    </label>
-  </div>
+      <div>
+        <label>性別
+          <select name="gender">
+            <option value="0">ランダム</option>
+            <option value="1">男女別</option>
+            <option value="2">交互</option>
+          </select>
+        </label>
+      </div>
 
-  <h2>席の形を選んでください</h2>
-  <div>
-    <input type="radio" name="shape" value="0" checked>対面（１）
-    <input type="radio" name="shape" value="1">対面（２）
-  </div>
+      <h2>席の形を選んでください</h2>
+      <div>
+        <input type="radio" name="shape" value="0" checked>対面（１）
+        <input type="radio" name="shape" value="1">対面（２）
+      </div>
 
-  <h4>参加者一覧</h4>
-  <a href="{{ url_for('room.invite', id=id) }}">編集</a>
-  <div class="scroll">
-  {% for participant in participants %}
-    <h5>{{ participant['username'] }}</h5>
-  {% endfor %}
+      <h4>参加者一覧</h4>
+      <a href="{{ url_for('room.invite', id=id) }}">編集</a>
+      <div class="scroll">
+      {% for participant in participants %}
+        <h5>{{ participant['username'] }}</h5>
+      {% endfor %}
+      </div>
+      <div>
+        <input type="submit" value="席替えをする" onclick="loading();">
+      </div>
+    </form>
   </div>
-
-  <div>
-    <input type="submit" value="席替えをする">
-  </div>
-</form>
+<script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+<script type="text/javascript">
+  function loading(){
+    $("#loading").show();
+    $("#content").hide();
+  }
+</script>
 {% endblock %}

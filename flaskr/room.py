@@ -159,6 +159,7 @@ def result(id):
   shape_check = seat_check['shape']
 
   seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
+
   print(seat_order)
 
   return render_template('room/result.html', id=id, shape_check=shape_check, seat_order=seat_order)
