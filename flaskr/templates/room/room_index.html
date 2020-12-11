@@ -2,14 +2,15 @@
 <h1>{% block title %}ルームの作成{% endblock %}</h1>
 {% endblock %} {% block content %}
 <form method="post">
-  <label for="title">Title</label>
+  <label for="title">ルームの名前</label>
   <input
     name="title"
     id="title"
     ,
     value="{{ request.form['title'] }}"
+    placeholder="ルーム名" 
     required
-  />
-  <input type="submit" , value="next" />
+  >
+  <input type="submit" , value="次へ">
 </form>
 {% endblock %}
