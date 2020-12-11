@@ -47,9 +47,9 @@
       </div>
     {% endfor %}
     {% if seat_order | length % 2 == 0 %}
-      <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
+      <div><a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
           {{ seat_order[-1]['username'] }}
-        </div></a>
+      </div></a>
     {% endif %}
   {% endif %}
   </div>
