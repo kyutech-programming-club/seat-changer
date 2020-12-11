@@ -63,6 +63,21 @@ a.btn--square {
     box-shadow: inset 1px 1px 1px #fff;
 }
 
+.user_table {
+    width: 100%;
+    position: relative;
+}
+
+.user_info {
+    float: left;
+}
+
+.edit {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
 a.btn--square:active {
     background: -webkit-gradient(linear, left bottom, left top, from(#fdfbfb), to(#ebedee));
     background: -webkit-linear-gradient(bottom, #fdfbfb 0%, #ebedee 100%);
@@ -239,6 +254,10 @@ header .action {
     margin-bottom: 0.5em;
     color: #5C4B51;
     font-family: sans-serif;
+}
+
+.back {
+    text-align: center;
 }
 
 .content input,
