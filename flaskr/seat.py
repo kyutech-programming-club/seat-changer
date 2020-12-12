@@ -495,6 +495,7 @@ def seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_chec
 
 def db_seat_order(id, participants_list, smoke_alcohol_check, hobby_check, gender_check):
   seat_order = seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_check)
+  print(seat_order)
   db = get_db()
 
   for i, seat in enumerate(seat_order):

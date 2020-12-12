@@ -126,7 +126,16 @@ def category(id):
       smoke_alcohol_check.append(smoke_check)
       smoke_alcohol_check.append(alcohol_check)
 
+      print("------------------------------------------------")
+      print(smoke_check)
+      print(alcohol_check)
+      print(hobby_check)
+      print(gender_check)
+      print(shape_check)
+
       seat.db_seat_order(id, participants, smoke_alcohol_check, hobby_check, gender_check)
+
+      print("------------------------------------------------")
 
       db.execute(
         'INSERT INTO seat (room_id, smoke, alcohol, hobby, gender, shape)'
