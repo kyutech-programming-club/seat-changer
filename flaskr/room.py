@@ -122,6 +122,12 @@ def category(id):
       gender_check = request.form.get('gender')
       shape_check = request.form.get('shape')
 
+      smoke_alcohol_check = []
+      smoke_alcohol_check.append(smoke_check)
+      smoke_alcohol_check.append(alcohol_check)
+
+      seat.db_seat_order(id, participants, smoke_alcohol_check, hobby_check, gender_check)
+
       db.execute(
         'INSERT INTO seat (room_id, smoke, alcohol, hobby, gender, shape)'
         ' VALUES (?, ?, ?, ?, ?, ?)',
@@ -138,29 +144,15 @@ def category(id):
 def result(id):
   db = get_db()
 
-  participants = db.execute(
-    'SELECT user_id, username'
-    ' FROM participant JOIN user ON user_id = id'
-    ' WHERE room_id = ?',
-    (id,)
-  ).fetchall()
-
   seat_check = db.execute(
     'SELECT * FROM seat'
     ' WHERE room_id = ?',
     (id,)
   ).fetchone()
 
-  smoke_alcohol = []
-  smoke_alcohol.append(seat_check['smoke'])
-  smoke_alcohol.append(seat_check['alcohol'])
-  hobby = seat_check['hobby']
-  gender = seat_check['gender']
+  seat_order = seat.create_seat_order(id)
+
   shape_check = seat_check['shape']
-
-  seat_order = seat.seat_change(participants, smoke_alcohol, hobby, gender)
-
-  print(seat_order)
 
   return render_template('room/result.html', id=id, shape_check=shape_check, seat_order=seat_order)
 
@@ -199,6 +191,13 @@ def delete_seat(id):
     ' WHERE room_id = ?',
     (id,)
   )
+
+  db.execute(
+    'DELETE FROM seatorder'
+    ' WHERE room_id = ?',
+    (id,)
+  )
+
   db.commit()
 
   return redirect(url_for('room.category', id=id))

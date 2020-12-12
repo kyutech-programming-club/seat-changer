@@ -9,22 +9,22 @@
   {% if shape_check == 0 %}
     {% for i in range(seat_order | length - 1)[::2] %}
       <div class="seat-line">
-        <a href="{{ url_for('auth.userpage', id=seat_order[i]['user_id']) }}" class="seat">
+        <a href="{{ url_for('auth.userpage', id=seat_order[i][0]) }}" class="seat">
           <div class="shortcut" style="width:95%;">
-            {{ seat_order[i]['username'] }}
+            {{ seat_order[i][1] }}
           </div></a>
         <a class="table-margin">margin</a>
-        <a href="{{ url_for('auth.userpage', id=seat_order[i+1]['user_id']) }}" class="seat">
+        <a href="{{ url_for('auth.userpage', id=seat_order[i+1][0]) }}" class="seat">
           <div class="shortcut" style="width:95%;">
-            {{ seat_order[i+1]['username'] }}
+            {{ seat_order[i+1][1] }}
           </div></a>
       </div>
     {% endfor %}
     {% if seat_order | length % 2 == 1 %}
       <div class="seat-line">
-        <a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
+        <a href="{{ url_for('auth.userpage', id=seat_order[-1][0]) }}" class="seat">
           <div class="shortcut" style="width:95%;">
-            {{ seat_order[-1]['username'] }}
+            {{ seat_order[-1][1] }}
           </div></a>
           <a class="table-margin">margin</a>
         <a href="" class="seat seat-dummy"></a>
@@ -32,24 +32,24 @@
     {% endif %}
   {% elif shape_check == 1 %}
     <div>
-      <a href="{{ url_for('auth.userpage', id=seat_order[0]['user_id']) }}" class="seat">{{ seat_order[0]['username'] }}</a>
+      <a href="{{ url_for('auth.userpage', id=seat_order[0][0]) }}" class="seat">{{ seat_order[0][1] }}</a>
     </div>
     {% for i in range((seat_order | length - 1) // 2) %}
       <div class="seat-line">
-        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2-1]['user_id']) }}" class="seat">
+        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2-1][0]) }}" class="seat">
           <div class="shortcut" style="width:95%;">
-            {{ seat_order[(i+1)*2-1]['username'] }}
+            {{ seat_order[(i+1)*2-1][1] }}
           </div></a>
         <a class="table-margin">margin</a>
-        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2]['user_id']) }}" class="seat">
+        <a href="{{ url_for('auth.userpage', id=seat_order[(i+1)*2][0]) }}" class="seat">
           <div class="shortcut" style="width:95%;">
-            {{ seat_order[(i+1)*2]['username'] }}
+            {{ seat_order[(i+1)*2][1] }}
           </div></a>
       </div>
     {% endfor %}
     {% if seat_order | length % 2 == 0 %}
-      <div><a href="{{ url_for('auth.userpage', id=seat_order[-1]['user_id']) }}" class="seat">
-          {{ seat_order[-1]['username'] }}
+      <div><a href="{{ url_for('auth.userpage', id=seat_order[-1][0]) }}" class="seat">
+          {{ seat_order[-1][1] }}
       </div></a>
     {% endif %}
   {% endif %}
