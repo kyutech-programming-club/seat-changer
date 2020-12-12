@@ -133,7 +133,7 @@ def common_link_list(divide_list):
   return order_list
 
 def smoke_alcohol_shuffle_list(participants_list, divide_list, hobby_check):
-  if hobby_check == 1:
+  if hobby_check == "1":
     divide_list = common_change_object_divide_list(divide_list, participants_list)
 
     for i, one_list in enumerate(divide_list):
@@ -280,7 +280,7 @@ def gender_create_user_list(participants_list):
   return gender_list
 
 def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, hobby_check):
-  if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+  if smoke_alcohol_check[0] == "1" and smoke_alcohol_check[1] == "1":
     divide_list = common_change_object_divide_list(divide_list, participants_list)
 
     for i, one_list in enumerate(divide_list):
@@ -290,7 +290,7 @@ def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, 
     divide_list[1].reverse()
     seat_result = common_link_list(divide_list)
 
-  elif smoke_alcohol_check[0] == 1:
+  elif smoke_alcohol_check[0] == "1":
     divide_list = common_change_object_divide_list(divide_list, participants_list)
 
     for i, one_list in enumerate(divide_list):
@@ -300,7 +300,7 @@ def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, 
     divide_list[1].reverse()
     seat_result = common_link_list(divide_list)
 
-  elif smoke_alcohol_check[1] == 1:
+  elif smoke_alcohol_check[1] == "1":
     divide_list = common_change_object_divide_list(divide_list, participants_list)
 
     for i, one_list in enumerate(divide_list):
@@ -311,7 +311,7 @@ def by_gender_shuffle_list(participants_list, divide_list, smoke_alcohol_check, 
     seat_result = common_link_list(divide_list)
 
   else:
-    if hobby_check == 1:
+    if hobby_check == "1":
       divide_list = common_change_object_divide_list(divide_list, participants_list)
 
       for i, one_list in enumerate(divide_list):
@@ -376,23 +376,23 @@ def alternate_gender_shuffle_list(participants_list, smoke_alcohol_check, hobby_
   divide_list = alternate_gender_divide_list(participants_list)
   divide_list = common_change_object_divide_list(divide_list, participants_list)
 
-  if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+  if smoke_alcohol_check[0] == "1" and smoke_alcohol_check[1] == "1":
     for i, one_list in enumerate(divide_list):
       one_list = smoke_and_alcohol_seat_change(one_list, hobby_check)
       divide_list[i] = one_list
 
-  elif smoke_alcohol_check[0] == 1:
+  elif smoke_alcohol_check[0] == "1":
     for i, one_list in enumerate(divide_list):
       one_list = smoke_seat_change(one_list, hobby_check)
       divide_list[i] = one_list
 
-  elif smoke_alcohol_check[1] == 1:
+  elif smoke_alcohol_check[1] == "1":
     for i, one_list in enumerate(divide_list):
       one_list = alcohol_seat_change(one_list, hobby_check)
       divide_list[i] = one_list
 
   else:
-    if hobby_check == 1:
+    if hobby_check == "1":
       divide_list = common_change_object_divide_list(divide_list, participants_list)
 
       for i, one_list in enumerate(divide_list):
@@ -455,14 +455,14 @@ def alternate_gender_seat_change(participants_list, smoke_alcohol_check, hobby_c
   divide_list = alternate_gender_shuffle_list(participants_list, smoke_alcohol_check, hobby_check)
 
   if len(divide_list[1]) == 0:
-    if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+    if smoke_alcohol_check[0] == "1" and smoke_alcohol_check[1] == "1":
       seat_result = smoke_and_alcohol_seat_change(participants_list, hobby_check)
-    elif smoke_alcohol_check[0] == 1:
+    elif smoke_alcohol_check[0] == "1":
       seat_result = smoke_seat_change(participants_list, hobby_check)
-    elif smoke_alcohol_check[1] == 1:
+    elif smoke_alcohol_check[1] == "1":
       seat_result = alcohol_seat_change(participants_list, hobby_check)
     else:
-      if hobby_check == 1:
+      if hobby_check == "1":
         seat_result = hobby_seat_change(participants_list)
       else:
         random.shuffle(participants_list)
@@ -473,23 +473,51 @@ def alternate_gender_seat_change(participants_list, smoke_alcohol_check, hobby_c
   return seat_result
 
 def seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_check):
-  if gender_check == 1:
+  if gender_check == "1":
     seat_result = by_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check)
-  elif gender_check == 2:
+  elif gender_check == "2":
     seat_result = alternate_gender_seat_change(participants_list, smoke_alcohol_check, hobby_check)
   else:
-    if smoke_alcohol_check[0] == 1 and smoke_alcohol_check[1] == 1:
+    if smoke_alcohol_check[0] == "1" and smoke_alcohol_check[1] == "1":
       seat_result = smoke_and_alcohol_seat_change(participants_list, hobby_check)
-    elif smoke_alcohol_check[0] == 1:
+    elif smoke_alcohol_check[0] == "1":
       seat_result = smoke_seat_change(participants_list, hobby_check)
-    elif smoke_alcohol_check[1] == 1:
+    elif smoke_alcohol_check[1] == "1":
       seat_result = alcohol_seat_change(participants_list, hobby_check)
     else:
-      if hobby_check == 1:
+      if hobby_check == "1":
         seat_result = hobby_seat_change(participants_list)
       else:
         random.shuffle(participants_list)
         seat_result = participants_list
 
   return seat_result
+
+def db_seat_order(id, participants_list, smoke_alcohol_check, hobby_check, gender_check):
+  seat_order = seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_check)
+  db = get_db()
+
+  for i, seat in enumerate(seat_order):
+    db.execute(
+      'INSERT INTO seatorder (room_id, user_index, user_id, username)'
+      ' VALUES (?, ?, ?, ?)',
+      (id, i, seat['user_id'], seat['username'])
+    )
+    db.commit()
+
+def create_seat_order(id):
+  db = get_db()
+  order = db.execute(
+    'SELECT * FROM seatorder'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchall()
+
+  seat_order = [[] for i in range(len(order))]
+
+  for one in order:
+    seat_order[one['user_index']].append(one['user_id'])
+    seat_order[one['user_index']].append(one['username'])
+
+  return seat_order
 
