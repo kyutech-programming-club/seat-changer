@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS alcohol;
 DROP TABLE IF EXISTS smoke;
 DROP TABLE IF EXISTS hobbys;
 DROP TABLE IF EXISTS seat;
+DROP TABLE IF EXISTS seatorder;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,4 +68,11 @@ CREATE TABLE seat (
   gender INTEGER NOT NULL,
   shape INTEGER NOT NULL,
   FOREIGN KEY (room_id) REFERENCES room (id)
+);
+
+CREATE TABLE seatorder (
+  room_id INTEGER NOT NULL,
+  user_index INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  username TEXT NOT NULL
 );

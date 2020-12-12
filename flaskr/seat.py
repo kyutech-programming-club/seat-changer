@@ -493,3 +493,31 @@ def seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_chec
 
   return seat_result
 
+def db_seat_order(id, participants_list, smoke_alcohol_check, hobby_check, gender_check):
+  seat_order = seat_change(participants_list, smoke_alcohol_check, hobby_check, gender_check)
+  db = get_db()
+
+  for i, seat in enumerate(seat_order):
+    db.execute(
+      'INSERT INTO seatorder (room_id, user_index, user_id, username)'
+      ' VALUES (?, ?, ?, ?)',
+      (id, i, seat['user_id'], seat['username'])
+    )
+    db.commit()
+
+def create_seat_order(id):
+  db = get_db()
+  order = db.execute(
+    'SELECT * FROM seatorder'
+    ' WHERE room_id = ?',
+    (id,)
+  ).fetchall()
+
+  seat_order = [[] for i in range(len(order))]
+
+  for one in order:
+    seat_order[one['user_index']].append(one['user_id'])
+    seat_order[one['user_index']].append(one['username'])
+
+  return seat_order
+
