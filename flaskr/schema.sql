@@ -60,19 +60,16 @@ CREATE TABLE hobbys (
   category TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE seat (
+CREATE TABLE seat_shape (
   room_id INTEGER NOT NULL,
-  smoke INTEGER NOT NULL,
-  alcohol INTEGER NOT NULL,
-  hobby INTEGER NOT NULL,
-  gender INTEGER NOT NULL,
   shape INTEGER NOT NULL,
   FOREIGN KEY (room_id) REFERENCES room (id)
 );
 
-CREATE TABLE seatorder (
+CREATE TABLE seat_order (
   room_id INTEGER NOT NULL,
   user_index INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
-  username TEXT NOT NULL
+  username TEXT NOT NULL,
+  FOREIGN KEY (room_id) REFERENCES room (id)
 );
