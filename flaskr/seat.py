@@ -499,7 +499,7 @@ def db_seat_order(id, participants_list, smoke_alcohol_check, hobby_check, gende
 
   for i, seat in enumerate(seat_order):
     db.execute(
-      'INSERT INTO seatorder (room_id, user_index, user_id, username)'
+      'INSERT INTO seat_order (room_id, user_index, user_id, username)'
       ' VALUES (?, ?, ?, ?)',
       (id, i, seat['user_id'], seat['username'])
     )
@@ -508,7 +508,7 @@ def db_seat_order(id, participants_list, smoke_alcohol_check, hobby_check, gende
 def create_seat_order(id):
   db = get_db()
   order = db.execute(
-    'SELECT * FROM seatorder'
+    'SELECT * FROM seat_order'
     ' WHERE room_id = ?',
     (id,)
   ).fetchall()

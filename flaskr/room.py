@@ -129,9 +129,9 @@ def category(id):
       seat.db_seat_order(id, participants, smoke_alcohol_check, hobby_check, gender_check)
 
       db.execute(
-        'INSERT INTO seat (room_id, smoke, alcohol, hobby, gender, shape)'
-        ' VALUES (?, ?, ?, ?, ?, ?)',
-        (id, smoke_check, alcohol_check, hobby_check, gender_check, shape_check)
+        'INSERT INTO seat_shape (room_id, shape)'
+        ' VALUES (?, ?)',
+        (id, shape_check)
       )
       db.commit()
 
@@ -145,7 +145,7 @@ def result(id):
   db = get_db()
 
   seat_check = db.execute(
-    'SELECT * FROM seat'
+    'SELECT * FROM seat_shape'
     ' WHERE room_id = ?',
     (id,)
   ).fetchone()
@@ -167,7 +167,7 @@ def delete_room(id):
   )
 
   db.execute(
-    'DELETE FROM seat'
+    'DELETE FROM seat_shape'
     ' WHERE room_id = ?',
     (id,)
   )
@@ -187,13 +187,13 @@ def delete_seat(id):
   db = get_db()
 
   db.execute(
-    'DELETE FROM seat'
+    'DELETE FROM seat_shape'
     ' WHERE room_id = ?',
     (id,)
   )
 
   db.execute(
-    'DELETE FROM seatorder'
+    'DELETE FROM seat_order'
     ' WHERE room_id = ?',
     (id,)
   )
